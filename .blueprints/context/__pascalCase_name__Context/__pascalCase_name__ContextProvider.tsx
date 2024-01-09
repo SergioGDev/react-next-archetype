@@ -18,12 +18,12 @@ export const {{pascalCase name}}ContextProvider = ({ children }: PropsWithChildr
   // const addItem = (item: Item) => dispatch({ type: "addItem", payload: item });
   // const removeItem = (id: number) => dispatch({ type: "removeItem", payload: id });
 
-  const providerObject = {
+  const providerObject: {{ pascalCase name }}ContextProps = {
     ...{{camelCase name}}Data,
 
       // Add here the methods of the provider
       // addItem,
-      // removeItem,    
+      // removeItem,
   };
 
   return (
