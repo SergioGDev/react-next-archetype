@@ -33,4 +33,4 @@ export const {{pascalCase name}}ContextProvider = ({ children }: PropsWithChildr
   );
 };
 
-export const useDataContext = () => useContext({{pascalCase name}}Context);
+export const use{{pascalCase name}}Context = () => useContext({{pascalCase name}}Context);
