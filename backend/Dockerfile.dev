@@ -5,4 +5,4 @@ RUN npm i -g nodemon
 RUN npm install
 COPY . .
 EXPOSE 3028
-CMD ["nodemon", "./app/index.js"]
+CMD ["nodemon", "./app/app.ts"]
