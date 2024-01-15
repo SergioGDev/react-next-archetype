@@ -1,0 +1,25 @@
+@import '@/themes/_variables.scss';
+
+.toolbarContainer {
+    background-color: white;
+    color: black;
+    height: $toolbar-height;
+    
+    display: flex;
+    align-items: center;
+    justify-content: start;
+
+    &.sidebarOpened {
+        .menuButton {
+            margin-left: $sidebar-opened-width;
+            transition: margin-left $sidebar-transition-time ease-in-out;
+        }
+    }
+    
+    .menuButton {
+        cursor: pointer;
+        background-color: white;
+        color: black;
+        transition: margin-left $sidebar-transition-time ease-in-out;
+    }
+}

@@ -13,16 +13,14 @@ export type AuthContextProps = AuthContextType & {
 // Add here the common context's types. For example:
 
 export type UserData = {
-  _id: string;
+  id: string;
   email: string;
   name: string;
-  surname: string;
-  idCompany?: string;
   roles: Role[];
-  token: string;
+  idCompany?: string;
 };
 
-export type Role = "USER" | "ADMIN" | "BOSS";
+export type Role = "USER_ROLE" | "ADMIN_ROLE" | "BOSS_ROLE";
 
 export type AuthError = {
   msg?: string;
@@ -36,14 +34,12 @@ export type RespError = {
 }
 
 export type RespAuth = {
-  data: UserData;
-  refreshToken: string;
-  type: string;
+  user: UserData;
+  token: string;
 }
 
 export type AuthToken = {
   token: string;
-  refreshToken: string;
 }
 
 export type ApiResp = {

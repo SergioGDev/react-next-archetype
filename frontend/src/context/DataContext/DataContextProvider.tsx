@@ -3,9 +3,10 @@ import React, {
   useContext,
   useReducer,
 } from "react";
+
+import { DataContextReducer } from "./DataContextReducer";
 import { DataContext } from "./DataContext";
-import { Item } from "./dataContext.types";
-import DataContextReducer from "./DataContextReducer";
+import { DataContextProps, Item } from "./dataContext.types";
 import { initialDataContextState } from "./dataContext.consts";
 
 export const DataContextProvider = ({ children }: PropsWithChildren) => {
@@ -17,8 +18,10 @@ export const DataContextProvider = ({ children }: PropsWithChildren) => {
   const removeItem = (id: number) =>
     dispatch({ type: "removeItem", payload: id });
 
+  const obj: DataContextProps = { ...dataList, addItem, removeItem };
+
   return (
-    <DataContext.Provider value={{ ...dataList, addItem, removeItem }}>
+    <DataContext.Provider value={obj}>
       {children}
     </DataContext.Provider>
   );

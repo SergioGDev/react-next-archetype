@@ -9,6 +9,7 @@ import {
   UserData,
   RespAuth,
   AuthToken,
+  AuthContextProps,
 } from "./authContext.types";
 
 import Cookies from "js-cookie";
@@ -17,7 +18,7 @@ import { useRouter } from "next/navigation";
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
-  const [userData, dispatch] = useReducer(
+  const [authContextData, dispatch] = useReducer(
     AuthContextReducer,
     initialAuthContextState
   );
@@ -27,7 +28,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
     // Implement login authentication with axios
     axios
-      .post("/api/login", {
+      .post("/api/auth/login", {
         email,
         password,
       })
@@ -39,14 +40,14 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
           throw new Error("Error");
         }
 
-        const { data, refreshToken } = resp.data as RespAuth;
+        const { user, token } = resp.data as RespAuth;
         const authToken: AuthToken = {
-          token: data.token,
-          refreshToken,
+          token: token
         };
         Cookies.set("authTokens", JSON.stringify(authToken));
-        dispatch({ type: "okLogin", payload: data });
-        router.push("/admin/dashboard");
+
+        dispatch({ type: "okLogin", payload: user });
+        router.push("/dashboard/home");
       })
       .catch(({ response }) => {
         console.log(response);
@@ -67,8 +68,8 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     console.log("register user:", userData);
   };
 
-  const providerValues = {
-    ...userData,
+  const providerValues: AuthContextProps = {
+    ...authContextData,
     login,
     logout,
     registerUser,

@@ -1,14 +1,15 @@
-import { AuthContext } from "@/context/AuthContext/AuthContext";
 import styles from "./LoginPage.module.scss";
+
 import { FormControlInputText } from "@/components/ui/FormControlInputText";
+import { useAuthContext } from "@/context/AuthContext";
+
 import { Button } from "@mui/material";
-import { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 export const LoginPage = () => {
   const methods = useForm();
   const { watch } = methods;
-  const { login, loading: loadingUserData } = useContext(AuthContext);
+  const { login, isLoading } = useAuthContext();
 
   const handleOnSubmit = () => {
     const { email, password } = watch();
@@ -42,7 +43,7 @@ export const LoginPage = () => {
             <Button
               color="primary"
               variant="outlined"
-              disabled={ loadingUserData }
+              disabled={ isLoading }
               type="button"
               onClick={() => handleOnSubmit()}
             >

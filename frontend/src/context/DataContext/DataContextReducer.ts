@@ -5,7 +5,7 @@ type DataAction =
   | { type: "addItem"; payload: Item }
   | { type: "removeItem"; payload: number };
 
-const DataContextReducer = (
+export const DataContextReducer = (
   state: DataContextType,
   action: DataAction
 ): DataContextType => {
@@ -26,4 +26,3 @@ const DataContextReducer = (
   }
 };
 
-export default DataContextReducer;

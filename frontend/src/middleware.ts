@@ -11,19 +11,19 @@ export function middleware(request: NextRequest) {
       return response;
   }
 
-  if ((pathName.startsWith("/admin") || pathName.startsWith('/list-data')) && !authTokens) {
+  if (pathName.startsWith("/dashboard") && !authTokens) {
     const response = NextResponse.redirect(new URL("/login", request.url));
     response.cookies.delete("authTokens");
     return response;
   }
 
   if (authTokens && pathName.startsWith("/login")) {
-    const response = NextResponse.redirect(new URL("/admin/dashboard", request.url));
+    const response = NextResponse.redirect(new URL("/dashboard/home", request.url));
     return response;
   }
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/admin(.*)", "/login", '/'],
+  matcher: ["/dashboard(.*)", "/login", '/'],
 };

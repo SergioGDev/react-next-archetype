@@ -1,5 +1,6 @@
 version: "3.9"
 services:
+
   app-frontend:
     build: ./frontend
     ports:
@@ -11,6 +12,7 @@ services:
       - ./frontend/next.config.js:/app/next.config.js
     depends_on:
       - api-backend
+
   api-backend:
     build:
       context: ./backend
@@ -20,13 +22,15 @@ services:
     environment:
       DB_URL: mongodb://db/signings-data
     volumes:
-      - ./backend/app:/app/app
+      - ./backend/src:/app/app
     depends_on:
       - db
+      
   db:
-    image: mongo:5.0.19-focal
+    image: mongo:6.0.6
     ports:
       - 27017:27017
+    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: sergiogdev_admin
       MONGO_INITDB_ROOT_PASSWORD: password64683513830543
