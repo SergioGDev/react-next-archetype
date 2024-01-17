@@ -1,75 +1,84 @@
-import React, { useEffect, useState } from "react";
-import styles from "./FormControlInputText.module.scss";
+import React, { useEffect, useState } from 'react';
+import styles from './FormControlInputText.module.scss';
 
-import { FormControlInputTextProps } from "./formControlInputText.types";
-import { useFormContext } from "react-hook-form";
-import {
-  FormControl,
-  FormHelperText,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { FormControlInputTextProps } from './formControlInputText.types';
 
-export const FormControlInputText = ({
-  name,
+import { FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useFormContext } from 'react-hook-form';
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+const FormControlInputText = ({
+  label,
   className,
   sx,
-  label,
   placeholder,
-  type = "text",
-  defaultValue,
+  type = 'text',
   readOnly,
   error,
   shrink,
   required,
+  multiline,
+  rows,
+  minRows,
+  maxRows,
   minLength,
   maxLength,
   min,
   max,
   pattern,
+  inputTestSelector,
+  defaultValue,
+  name,
   onChange,
   onBlur,
-  endAdornmentOnClick,
+  onMouseEnter,
   EndAdornmentIcon,
+  endAdornmentTestSelector,
+  endAdornmentOnClick,
   formHelperType,
   formHelperLeft,
+  formHelperLeftTestSelector,
   formHelperRight,
+  formHelperRightTestSelector,
 }: FormControlInputTextProps) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const { register, setValue, trigger, watch } = useFormContext();
 
   useEffect(() => {
-    defaultValue && setValue(name, defaultValue);
-  });
+    if (defaultValue) {
+      setValue(name, defaultValue);
+    }
+  }, []);
 
   // Events
-  const handleOnChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     event.preventDefault();
     event.stopPropagation();
-
     trigger(name);
-    onChange && onChange(event);
+    onChange?.(event);
   };
 
-  const handleOnBlur = (
-    event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleOnBlur = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     event.preventDefault();
     event.stopPropagation();
-
     trigger(name);
-    onBlur && onBlur(event);
+    setIsFocused(false);
+    onBlur?.(event);
   };
 
-  // EndAdornments component
+  const handleOnMouseEnter = (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event?.preventDefault();
+    event?.stopPropagation();
+
+    onMouseEnter?.(event);
+  };
+
+  // EndAdornments components
   const PasswordAdornment = (
     <InputAdornment position="end">
-      <IconButton onClick={() => setShowPassword(!showPassword)}>
+      <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" test-selector={endAdornmentTestSelector}>
         {showPassword ? <Visibility /> : <VisibilityOff />}
       </IconButton>
     </InputAdornment>
@@ -77,21 +86,16 @@ export const FormControlInputText = ({
 
   const EndAdornment = EndAdornmentIcon && (
     <InputAdornment position="end">
-      <IconButton
-        onClick={(event) => endAdornmentOnClick && endAdornmentOnClick(event)}
-      ></IconButton>
+      <IconButton onClick={endAdornmentOnClick} edge="end" test-selector={endAdornmentTestSelector}>
+        <EndAdornmentIcon />
+      </IconButton>
     </InputAdornment>
   );
 
   return (
-    <FormControl
-      variant="standard"
-      error={error}
-      className={className}
-      sx={{ ...sx, display: "block" }}
-    >
+    <FormControl variant="standard" error={error} className={className} sx={{ ...sx, display: 'block' }}>
       {label && (
-        <InputLabel shrink={shrink} required={required}>
+        <InputLabel shrink={shrink || isFocused || watch(name)?.toString().trim().length > 0} required={required}>
           {label}
         </InputLabel>
       )}
@@ -99,51 +103,45 @@ export const FormControlInputText = ({
         placeholder={placeholder}
         defaultValue={defaultValue}
         readOnly={readOnly}
-        type={type === "password" && showPassword ? "text" : type}
+        multiline={multiline}
+        rows={rows}
+        minRows={minRows}
+        maxRows={maxRows}
+        onFocus={() => setIsFocused(true)}
+        type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
         {...register(name, {
-          required: required && `${label} is required`,
-          minLength: minLength && {
-            value: minLength,
-            message: `${label} must be at least ${minLength} characters`,
-          },
-          maxLength: maxLength && {
-            value: maxLength,
-            message: `${label} must be at most ${maxLength} characters`,
-          },
-          min: min && {
-            value: min,
-            message: `${label} must be at least ${min}`,
-          },
-          max: max && {
-            value: max,
-            message: `${label} must be at most ${max}`,
-          },
-          pattern: pattern && {
-            value: pattern,
-            message: `${label} is not valid`,
-          },
+          required: required,
+          minLength: minLength,
+          maxLength: maxLength,
+          min: min,
+          max: max,
+          pattern,
           onChange: (event) => handleOnChange(event),
           onBlur: (event) => handleOnBlur(event),
         })}
-        endAdornment={type === "password" ? PasswordAdornment : EndAdornment}
-        sx={{ width: "100%" }}
+        inputProps={{ minLength, maxLength }}
+        onMouseEnter={(event) => handleOnMouseEnter(event)}
+        test-selector={inputTestSelector}
+        endAdornment={type === 'password' ? PasswordAdornment : EndAdornment}
+        sx={{ width: '100%' }}
       />
-      <FormHelperText
-        component={"div"}
-        sx={{ display: "flex", justifyContent: "space-between" }}
-      >
-        {formHelperType === undefined && <div>&nbsp;</div>}
-        {formHelperType && (
-          <div>{formHelperLeft ? formHelperLeft : <span>&nbsp;</span>}</div>
+      <FormHelperText component={'div'} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        {formHelperType ? (
+          <div test-selector={formHelperLeftTestSelector}>{formHelperLeft ?? <span>&nbsp;</span>}</div>
+        ) : (
+          <div>&nbsp;</div>
         )}
-        {(formHelperType === "DESCRIPTION_AND_LENGTH" ||
-          formHelperType === "JUST_LENGTH") && (
-          <div className={styles.wordsCounter}>
-            {watch(name) ? watch(name).length : 0} /{maxLength ? maxLength : 0}
+        {(formHelperType === 'DESCRIPTION_AND_LENGTH' || formHelperType === 'JUST_LENGTH') && (
+          <div className={styles.wordsCounter} test-selector={formHelperRightTestSelector}>
+            {watch(name) ? watch(name).length : 0} / {minLength ? `${minLength} - ` : ''} {maxLength ?? 0}
           </div>
         )}
-        {formHelperType === "TWO_DESCRIPTIONS" && <div>{formHelperRight}</div>}
+        {formHelperType === 'TWO_DESCRIPTIONS' && (
+          <div test-selector={formHelperRightTestSelector}>{formHelperRight}</div>
+        )}
       </FormHelperText>
     </FormControl>
   );
 };
+
+export default FormControlInputText;

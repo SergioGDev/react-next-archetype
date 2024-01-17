@@ -1,0 +1,18 @@
+.typeLabel {
+  color: rgba(0, 0, 0, 0.435);
+  font-style: italic;
+}
+
+.bold {
+  font-weight: bold;
+  width: auto;
+  white-space: nowrap;
+}
+
+small {
+  font-size: 80%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: auto;
+}

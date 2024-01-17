@@ -1,4 +1,1 @@
-"use client";
-
-export * from "./FormControlInputText";
-export * from "./FormControlInputText.module.scss";
+export { default } from './FormControlInputText';
