@@ -1,0 +1,11 @@
+@import '@/theme/variables';
+
+.spinnerContainer {
+    position: fixed;
+    z-index: 100;
+    left: 50%;
+    margin-left: -25px;
+    top: 50%;
+    margin-top: -25px;
+  }
+  
