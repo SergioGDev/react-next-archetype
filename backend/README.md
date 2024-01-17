@@ -1,6 +1,7 @@
 # React Next Archetype: Backend
 
-## Tipos de ficheros
+
+### Tipos de ficheros
 
 - **DTO**: Data Transfer Objects. Objetos que nos van a ayudar a transferir los datos dentro de nuestra aplicación.
 - **ENTITY**: Se trata de una referencia a cómo vamos a grabar los datos (casi de forma idéntica) en nuestra base de datos. Son CASI iguales. Se mapea desde el mapper.
@@ -9,7 +10,7 @@
 - **CASO DE USO**: Son PURAS REGLAS. Utilizando el REPOSITORY hace la función.
 - **CONTROLADOR**: Usar el CASO DE USO en el controlador.
 
-## Pasos a seguir para generar un nuevo endpoint
+### Pasos a seguir para generar un nuevo endpoint
 
 1. Si no hay un modelo creado, creamos el modelo de base de datos dentro de la carpeta `data/mongodb/models`.
 2. En caso de que no se tenga una entidad creada, creamos la entidad dentro del directorio `domain/entities`.
@@ -23,9 +24,11 @@
 6. Creamos el **caso de uso** dentro del directorio `domain/use-cases/[MODULE_NAME]/[USE_CASE_NAME].use-case.ts`. Mirar otros ejemplos para implementar los casos de uso.
 7. Exportar la ruta en el fichero de rutas: `presentations[/MODULE_NAME]/routes.ts`.
 
+
 --------------------------------------------
 
-## File Types
+
+### File Types
 
 - **DTO**: Data Transfer Objects. Objects that will help us transfer data within our application.
 - **ENTITY**: This refers to how we are going to store data (almost identically) in our database. They are ALMOST identical. It is mapped from the mapper.
@@ -34,7 +37,7 @@
 - **USE CASE**: These are PURE RULES. It uses the REPOSITORY to perform its function.
 - **CONTROLLER**: Uses the USE CASE in the controller.
 
-## Steps to Generate a New Endpoint
+### Steps to Generate a New Endpoint
 
 1. If there is no model created, create the database model within the `data/mongodb/models` folder.
 2. If an entity is not created, create the entity within the `domain/entities` directory.
