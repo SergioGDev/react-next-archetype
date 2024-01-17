@@ -1,13 +1,15 @@
 import React from "react";
 import styles from "./LoginPage.module.scss";
 
+import AuthLayout from "../layout/AuthLayout/AuthLayout";
 import { FormControlInputText } from "@/components/ui/FormControlInputText";
-
-import { FormProvider, useForm } from "react-hook-form";
-import { Box, Button, Typography } from "@mui/material";
 import { useAuthContext } from "@/context/AuthContext";
 import { LoginForm } from "./loginPage.types";
-import { emailPattern } from "./loginPage.consts";
+import { emailPattern } from "@/consts/pattern.consts";
+
+import { Box, Button, Typography } from "@mui/material";
+import { FormProvider, useForm } from "react-hook-form";
+import Link from "next/link";
 
 const LoginPage = () => {
   const methods = useForm<LoginForm>();
@@ -24,52 +26,52 @@ const LoginPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.loginContainer}>
-        <Typography variant="h5" sx={{ marginBottom: 5, marginTop: 1 }}>
-          Login Page
-        </Typography>
+    <AuthLayout titlePage="Login">
+      <FormProvider {...methods}>
+        <form
+          className={styles.loginForm}
+          onSubmit={handleSubmit(handleOnSubmit)}
+        >
+          <FormControlInputText
+            name="email"
+            placeholder="email@google.com"
+            pattern={emailPattern}
+            label="Email"
+            required
+          />
 
-        <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(handleOnSubmit)}>
-            <FormControlInputText
-              name="email"
-              placeholder="email@jociles.com"
-              error={errors.email !== undefined}
-              pattern={emailPattern}
-              label="Email"
-              required
-              sx={{ width: "100%" }}
-            />
+          <FormControlInputText
+            name="password"
+            placeholder="Password"
+            label="Password"
+            type="password"
+            required
+          />
 
-            <FormControlInputText
-              name="password"
-              placeholder="Password"
-              label="Password"
-              error={errors.password !== undefined}
-              type="password"
-              required
-              sx={{ width: "100%" }}
-            />
+          <Box className={styles.goToRegisterUserBox}>
+            <Typography variant="body2">
+              Don't have an account?{" "}
+              <Link href={"/register"}>Click here to register</Link>
+            </Typography>
+          </Box>
 
-            <Box sx={{ width: "100%", height: "22px", textAlign: "center" }}>
-              <Typography variant="body2" sx={{ color: "#cd1a1a" }}>
-                {errorLoading?.msg}
-              </Typography>
-            </Box>
+          <Box className={styles.errorMsgBox}>
+            <Typography variant="body2" className={styles.errorMsg}>
+              {errorLoading?.msg}
+            </Typography>
+          </Box>
 
-            <Button
-              color="primary"
-              variant="outlined"
-              disabled={isLoading}
-              type="submit"
-            >
-              Login
-            </Button>
-          </form>
-        </FormProvider>
-      </div>
-    </div>
+          <Button
+            color="primary"
+            variant="outlined"
+            disabled={isLoading}
+            type="submit"
+          >
+            Login
+          </Button>
+        </form>
+      </FormProvider>
+    </AuthLayout>
   );
 };
 
