@@ -16,8 +16,8 @@
 2. En caso de que no se tenga una entidad creada, creamos la entidad dentro del directorio `domain/entities`.
 3. Hay que crear el DTO dentro del directorio `domain/entities/dtos`. Se insertarán dentro de un módulo concreto para cada DTO.
 4. Dentro del **datasource** del módulo (si no existe, hay que crearlo) añadimos el endpoint:
-  - Dentro de `domain/datasources/[MODULE_NAME].datasource.ts` creamos el método abstracto.
-  - Dentro de `infrastructure/datasources/[MODULE_NAME].datasource.impl.ts` implementamos la lógica del endpoint.
+    - Dentro de `domain/datasources/[MODULE_NAME].datasource.ts` creamos el método abstracto.
+    - Dentro de `infrastructure/datasources/[MODULE_NAME].datasource.impl.ts` implementamos la lógica del endpoint.
 5. Dentro del **repository** del módulo (si no existe, hay que crearlo) añadimos:
   - Dentro de `domain/repository/[MODULE_NAME].repository.ts` creamos el método abstracto.
   - Dentro de `infrastructure/repository/[MODULE_NAME].repository.impl.ts` hacemos el llamamiento al método abstracto del datasource.
