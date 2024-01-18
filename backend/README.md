@@ -19,8 +19,8 @@
     - Dentro de `domain/datasources/[MODULE_NAME].datasource.ts` creamos el método abstracto.
     - Dentro de `infrastructure/datasources/[MODULE_NAME].datasource.impl.ts` implementamos la lógica del endpoint.
 5. Dentro del **repository** del módulo (si no existe, hay que crearlo) añadimos:
-  - Dentro de `domain/repository/[MODULE_NAME].repository.ts` creamos el método abstracto.
-  - Dentro de `infrastructure/repository/[MODULE_NAME].repository.impl.ts` hacemos el llamamiento al método abstracto del datasource.
+      - Dentro de `domain/repository/[MODULE_NAME].repository.ts` creamos el método abstracto.
+      - Dentro de `infrastructure/repository/[MODULE_NAME].repository.impl.ts` hacemos el llamamiento al método abstracto del datasource.
 6. Creamos el **caso de uso** dentro del directorio `domain/use-cases/[MODULE_NAME]/[USE_CASE_NAME].use-case.ts`. Mirar otros ejemplos para implementar los casos de uso.
 7. Exportar la ruta en el fichero de rutas: `presentations[/MODULE_NAME]/routes.ts`.
 
@@ -43,10 +43,10 @@
 2. If an entity is not created, create the entity within the `domain/entities` directory.
 3. Create the DTO within the `domain/entities/dtos` directory. They will be inserted into a specific module for each DTO.
 4. In the **datasource** of the module (if it doesn't exist, create it), add the endpoint:
-  - Inside `domain/datasources/[MODULE_NAME].datasource.ts`, create the abstract method.
-  - Inside `infrastructure/datasources/[MODULE_NAME].datasource.impl.ts`, implement the logic of the endpoint.
+      - Inside `domain/datasources/[MODULE_NAME].datasource.ts`, create the abstract method.
+      - Inside `infrastructure/datasources/[MODULE_NAME].datasource.impl.ts`, implement the logic of the endpoint.
 5. In the **repository** of the module (if it doesn't exist, create it), add:
-  - Inside `infrastructure/datasources/[MODULE_NAME].datasource.impl.ts`, create the abstract method.
-  - Inside `infrastructure/repository/[MODULE_NAME].repository.impl.ts`, make the call to the abstract method of the datasource.
+      - Inside `infrastructure/datasources/[MODULE_NAME].datasource.impl.ts`, create the abstract method.
+      - Inside `infrastructure/repository/[MODULE_NAME].repository.impl.ts`, make the call to the abstract method of the datasource.
 6. Create the use case within the `domain/use-cases/[MODULE_NAME]/[USE_CASE_NAME].use-case.ts`. Refer to other examples to implement use cases.
 7. Export the route in the routes file: `presentations[/MODULE_NAME]/routes.ts`.
