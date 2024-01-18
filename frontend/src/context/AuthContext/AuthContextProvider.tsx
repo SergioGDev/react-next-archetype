@@ -33,21 +33,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         password,
       })
       .then((resp: ApiResp) => {
-        console.log(resp);
-        if (resp.status !== 200) {
-          const { msg, code } = resp.data as RespError;
-          dispatch({ type: "errorLoging", payload: { msg, code } });
-          throw new Error("Error");
-        }
-
-        const { user, token } = resp.data as RespAuth;
-        const authToken: AuthToken = {
-          token: token
-        };
-        Cookies.set("authTokens", JSON.stringify(authToken));
-
-        dispatch({ type: "okLogin", payload: user });
-        router.push("/dashboard/home");
+        readApiResp(resp);
       })
       .catch(({ response }) => {
         console.log(response);
@@ -58,14 +44,33 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
       });
   };
 
+  const registerUser = (userData: UserData) => {
+    dispatch({ type: "startRegisterUser" });
+
+    axios.post("/api/auth/register", { ...userData }).then((resp: ApiResp) => {
+      readApiResp(resp);
+    });
+  };
+
+  const readApiResp = (resp: ApiResp) => {
+    if (resp.status !== 200) {
+      const { msg, code } = resp.data as RespError;
+      dispatch({ type: "errorLoging", payload: { msg, code } });
+      throw new Error("Error");
+    }
+
+    const { user, token } = resp.data as RespAuth;
+    const authToken: AuthToken = {
+      token,
+    };
+    Cookies.set("authTokens", JSON.stringify(authToken));dispatch({ type: "okLogin", payload: user });
+    router.push("/dashboard/home");
+  }
+
   const logout = () => {
     Cookies.remove("authTokens");
     dispatch({ type: "logout" });
     router.replace("/login");
-  };
-
-  const registerUser = (userData: UserData) => {
-    console.log("register user:", userData);
   };
 
   const providerValues: AuthContextProps = {

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./LoginPage.module.scss";
 
 import AuthLayout from "../layout/AuthLayout/AuthLayout";
-import { FormControlInputText } from "@/components/ui/FormControlInputText";
+import FormControlInputText from "@/components/ui/FormControlInputText";
 import { useAuthContext } from "@/context/AuthContext";
 import { LoginForm } from "./loginPage.types";
 import { emailPattern } from "@/consts/pattern.consts";

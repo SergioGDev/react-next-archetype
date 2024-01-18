@@ -2,25 +2,31 @@ import React from "react";
 import styles from "./RegisterPage.module.scss";
 
 import AuthLayout from "../layout/AuthLayout";
+import FormControlInputText from "@/components/ui/FormControlInputText";
+import FormControlSelect from "@/components/ui/FormControlSelect";
 import { RegisterForm } from "./registerPage.types";
 import { emailPattern } from "@/consts/pattern.consts";
 import { useAuthContext } from "@/context/AuthContext";
-import { FormControlInputText } from "@/components/ui/FormControlInputText";
+import { getRolesItemList } from "./registerPage.helper";
 
 import { FormProvider, useForm } from "react-hook-form";
 import { Box, Button, Typography } from "@mui/material";
 import Link from "next/link";
-import FormControlSelect from "@/components/ui/FormControlSelect";
-import { getRolesItemList } from "./registerPage.helper";
+import { UserData } from "@/context/AuthContext/authContext.types";
 
 const RegisterPage = () => {
   const methods = useForm<RegisterForm>();
-  const { watch, handleSubmit } = methods;
+  const {
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = methods;
   const { registerUser, isLoading, errorLoading } = useAuthContext();
 
   const handleOnSubmit = () => {
-    const { email, password } = watch();
-    // login(email, password);
+    const { email, password, name, surname, role } = watch();
+    const userData: UserData = { email, name, surname, password, role };
+    registerUser(userData);
   };
 
   return (
@@ -34,6 +40,7 @@ const RegisterPage = () => {
             name="email"
             placeholder="email@google.com"
             pattern={emailPattern}
+            error={errors.email !== undefined}
             label="Email"
             required
           />
@@ -43,7 +50,9 @@ const RegisterPage = () => {
             placeholder="Password"
             label="Password"
             type="password"
+            error={errors.password !== undefined}
             required
+            minLength={6}
           />
 
           <FormControlInputText
@@ -51,6 +60,7 @@ const RegisterPage = () => {
             placeholder="Tell us your name..."
             label="Name"
             type="text"
+            error={errors.name !== undefined}
             required
           />
 
@@ -59,13 +69,15 @@ const RegisterPage = () => {
             placeholder="Tell us your surname..."
             label="Surname"
             type="text"
+            error={errors.surname !== undefined}
             required
-          />
+            />
 
           <FormControlSelect
             name="role"
             placeholder="Type of user..."
             label="Type of user"
+            error={errors.role !== undefined}
             required
             itemList={getRolesItemList()}
           />

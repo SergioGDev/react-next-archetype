@@ -93,7 +93,7 @@ const FormControlInputText = ({
   );
 
   return (
-    <FormControl variant="standard" error={error} className={className} sx={{ ...sx, display: 'block' }}>
+    <FormControl variant="standard" error={error} className={className} sx={{ ...sx, display: 'block', width: '100%' }}>
       {label && (
         <InputLabel shrink={shrink || isFocused || watch(name)?.toString().trim().length > 0} required={required}>
           {label}

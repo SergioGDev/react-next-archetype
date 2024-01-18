@@ -41,7 +41,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
   }
 
   async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
-    const { name, email, password } = registerUserDto;
+    const { name, surname, email, password, role } = registerUserDto;
 
     try {
       // 1. Verificar si el correo existe
@@ -51,8 +51,12 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
       const user = await UserModel.create({
         name,
+        surname,
         email,
         password: this.hashPassword(password),
+        role,
+        creationDate: new Date(),
+        status: 'ACTIVE'
       });
 
       // 2. Hacer un hash de la contraseña

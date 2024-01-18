@@ -6,9 +6,14 @@ import { AuthRepository } from "../../repositories/auth.repository";
 interface UserToken {
   token: string;
   user: {
-    id: string;
     name: string;
+    surname: string;
     email: string;
+    role: string;
+    creationDate: Date;
+    status?: string;
+    idCompany?: string;
+    img?: string;
   };
 }
 
@@ -22,24 +27,38 @@ export class RegisterUser implements RegisterUserUseCase {
   // Inyección de Dependencias
   constructor(
     private readonly authRepository: AuthRepository,
-    private readonly signToken: SignToken = JwtAdapter.generateToken,
+    private readonly signToken: SignToken = JwtAdapter.generateToken
   ) {}
 
   async execute(registerUserDto: RegisterUserDto): Promise<UserToken> {
     // Crear el usuario
     const user = await this.authRepository.register(registerUserDto);
-    
+    const {
+      name,
+      surname,
+      email,
+      role,
+      creationDate,
+      status,
+      idCompany,
+      img,
+    } = user;
     // Token
-    const token = await this.signToken({ id: user.id }, '2h');
-    
-    if (!token) throw CustomError.internalServer('Error generating token');
+    const token = await this.signToken({ id: user.id }, "2h");
+
+    if (!token) throw CustomError.internalServer("Error generating token");
 
     return {
       token: token,
       user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
+        name,
+        surname,
+        email,
+        role,
+        creationDate,
+        status,
+        idCompany,
+        img,
       },
     };
   }

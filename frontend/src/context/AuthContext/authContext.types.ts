@@ -13,14 +13,16 @@ export type AuthContextProps = AuthContextType & {
 // Add here the common context's types. For example:
 
 export type UserData = {
-  id: string;
+  id?: string;
   email: string;
+  password: string;
   name: string;
-  roles: Role[];
+  surname: string;
+  role: Role;
   idCompany?: string;
 };
 
-export type Role = "USER_ROLE" | "ADMIN_ROLE" | "BOSS_ROLE";
+export type Role = "USER_ROLE" | "ADMIN_ROLE" | "COORDINATOR_ROLE";
 
 export type AuthError = {
   msg?: string;
