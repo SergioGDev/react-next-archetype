@@ -22,7 +22,9 @@
       - Dentro de `domain/repository/[MODULE_NAME].repository.ts` creamos el método abstracto.
       - Dentro de `infrastructure/repository/[MODULE_NAME].repository.impl.ts` hacemos el llamamiento al método abstracto del datasource.
 6. Creamos el **caso de uso** dentro del directorio `domain/use-cases/[MODULE_NAME]/[USE_CASE_NAME].use-case.ts`. Mirar otros ejemplos para implementar los casos de uso.
-7. Exportar la ruta en el fichero de rutas: `presentations[/MODULE_NAME]/routes.ts`.
+7. Creamos el controlador, que será el encargado de realizar la llamada al caso de uso creado en el paso anterior.
+      - Dentro de `presentation/[MODULE_NAME]/controller.ts` creamos la función encargada de obtener los datos de la llamada y llamar al caso de uso y enviar la respuesta al front.
+8. Exportar la ruta en el fichero de rutas: `presentations[/MODULE_NAME]/routes.ts`.
 
 
 --------------------------------------------
@@ -49,4 +51,6 @@
       - Inside `infrastructure/datasources/[MODULE_NAME].datasource.impl.ts`, create the abstract method.
       - Inside `infrastructure/repository/[MODULE_NAME].repository.impl.ts`, make the call to the abstract method of the datasource.
 6. Create the use case within the `domain/use-cases/[MODULE_NAME]/[USE_CASE_NAME].use-case.ts`. Refer to other examples to implement use cases.
-7. Export the route in the routes file: `presentations[/MODULE_NAME]/routes.ts`.
+7. We create the controller, which will be responsible for making the call to the use case created in the previous step.
+      - Inside `presentation/[MODULE_NAME]/controller.ts` create the function to get the data and call the use case.
+8. Export the route in the routes file: `presentations[/MODULE_NAME]/routes.ts`.
