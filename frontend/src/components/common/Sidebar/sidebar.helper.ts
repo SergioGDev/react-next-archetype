@@ -1,4 +1,4 @@
-import { Home, List, Settings } from "lucide-react";
+import { Group, Home, List, Settings } from "lucide-react";
 import { SidebarSectionType } from "./sidebar.types";
 
 export const SidebarLinks: SidebarSectionType[] = [
@@ -15,6 +15,11 @@ export const SidebarLinks: SidebarSectionType[] = [
         icon: List,
         path: "/dashboard/user-list",
       },
+      {
+        name: "Groups",
+        icon: Group,
+        path: "/dashboard/groups"
+      }
     ],
   },
   {

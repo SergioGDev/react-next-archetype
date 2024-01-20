@@ -10,7 +10,7 @@
 
 .errorMsgBox {
   width: 100%;
-  height: 22px;
+  height: 30px;
   text-align: center;
 }
 
@@ -31,5 +31,5 @@
 }
 
 .errorMsg {
-  color: red;
+  color: $error-color;
 }

@@ -19,7 +19,7 @@ export type UserData = {
   name: string;
   surname: string;
   role: Role;
-  idCompany?: string;
+  idGroup?: string;
 };
 
 export type Role = "USER_ROLE" | "ADMIN_ROLE" | "COORDINATOR_ROLE";

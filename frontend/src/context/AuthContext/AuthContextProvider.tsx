@@ -39,7 +39,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         console.log(response);
         dispatch({
           type: "errorLoging",
-          payload: { msg: response.data.msg, code: response.status },
+          payload: { msg: response.data.error, code: response.status },
         });
       });
   };

@@ -13,11 +13,7 @@ import Link from "next/link";
 
 const LoginPage = () => {
   const methods = useForm<LoginForm>();
-  const {
-    watch,
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const { watch, handleSubmit } = methods;
   const { login, isLoading, errorLoading } = useAuthContext();
 
   const handleOnSubmit = () => {
