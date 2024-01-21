@@ -17,7 +17,7 @@ export class AuthRoutes {
     router.post("/login", controller.loginUser);
     router.post("/register", controller.registerUser);
 
-    router.get("/", [AuthMiddleware.validateJwt], controller.getUsers);
+    router.get("/user-list", [AuthMiddleware.validateJwt], controller.getUsers);
 
     return router;
   }

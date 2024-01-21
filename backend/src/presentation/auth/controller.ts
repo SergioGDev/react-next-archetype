@@ -9,6 +9,7 @@ import { AuthRepository } from "../../domain/repositories/auth.repository";
 import { JwtAdapter } from "../../config";
 import { UserModel } from "../../data/mongodb";
 import { LoginUserDto } from "../../domain/entities/dtos/auth";
+import { GetUserList } from "../../domain/use-cases/auth/get-user-list.use-case";
 
 export class AuthController {
   // Inyección de Dependencias
@@ -49,13 +50,9 @@ export class AuthController {
 
   // Get Users
   getUsers = (req: Request, res: Response) => {
-    UserModel.find()
-      .then((users) =>
-        res.json({
-          // users,
-          user: req.body.user,
-        })
-      )
-      .catch(() => res.status(500).json({ error: "Internal Server Error" }));
+    new GetUserList(this.authRepository)
+      .execute()
+      .then((data) => res.json(data))
+      .catch((error) => this.handleError(error, res));
   };
 }
