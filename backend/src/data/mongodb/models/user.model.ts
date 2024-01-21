@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { commonFieldsPlugin } from "../plugins/common-fields.plugin";
 
 const userSchema = new Schema({
   name: {
@@ -18,7 +19,7 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Password is required"],
   },
-  idCompany: {
+  idGroup: {
     type: String,
   },
   img: {
@@ -29,14 +30,9 @@ const userSchema = new Schema({
     default: "USER_ROLE",
     enum: ["USER_ROLE", "COORDINATOR_ROLE", "ADMIN_ROLE"],
   },
-  status: {
-    type: String,
-    default: "ACTIVE",
-    enum: ["ACTIVE", "INACTIVE", "DELETED"],
-  },
-  creationDate: {
-    type: Date,
-  },
 });
 
-export const UserModel = mongoose.model("User", userSchema);
+export const UserModel = mongoose.model(
+  "User",
+  userSchema.plugin(commonFieldsPlugin)
+);

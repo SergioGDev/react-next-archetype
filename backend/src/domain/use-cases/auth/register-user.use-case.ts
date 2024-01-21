@@ -12,7 +12,7 @@ interface UserToken {
     role: string;
     creationDate: Date;
     status?: string;
-    idCompany?: string;
+    idGroup?: string;
     img?: string;
   };
 }
@@ -40,7 +40,7 @@ export class RegisterUser implements RegisterUserUseCase {
       role,
       creationDate,
       status,
-      idCompany,
+      idGroup,
       img,
     } = user;
     // Token
@@ -57,7 +57,7 @@ export class RegisterUser implements RegisterUserUseCase {
         role,
         creationDate,
         status,
-        idCompany,
+        idGroup,
         img,
       },
     };

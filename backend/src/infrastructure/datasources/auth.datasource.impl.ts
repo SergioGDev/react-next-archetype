@@ -55,8 +55,6 @@ export class AuthDatasourceImpl implements AuthDatasource {
         email,
         password: this.hashPassword(password),
         role,
-        creationDate: new Date(),
-        status: 'ACTIVE'
       });
 
       // 2. Hacer un hash de la contraseña

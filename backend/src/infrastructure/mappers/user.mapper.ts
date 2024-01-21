@@ -12,7 +12,7 @@ export class UserMapper {
       role,
       status,
       creationDate,
-      idCompany,
+      idGroup,
       img,
     } = object;
 
@@ -32,7 +32,7 @@ export class UserMapper {
       role,
       creationDate,
       status,
-      idCompany,
+      idGroup,
       img
     );
   }

@@ -1,20 +1,19 @@
 import { Router } from "express";
 import { AuthRoutes } from "./auth/routes";
+import { GroupRoutes } from "./group/routes";
 
 export class AppRoutes {
+  static get routes(): Router {
+    const router = Router();
 
-    static get routes(): Router {
+    // Definir todas mis rutas principales
+    router.use("/api/auth", AuthRoutes.routes);
+    router.use("/api/group", GroupRoutes.routes);
 
-        const router = Router();
+    // Otras rutas
+    // router.use('/api/users')
+    // router.use('/api/products')
 
-        // Definir todas mis rutas principales
-        router.use('/api/auth', AuthRoutes.routes)
-
-        // Otras rutas
-        // router.use('/api/users')
-        // router.use('/api/products')
-
-
-        return router;
-    }
+    return router;
+  }
 }
