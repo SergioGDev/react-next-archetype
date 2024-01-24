@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  const authTokens = request.cookies.get("authTokens")?.value;
+  const authToken = request.cookies.get("authToken")?.value;
   const pathName = request.nextUrl.pathname;
 
   if (pathName === '/') {
@@ -11,13 +11,13 @@ export function middleware(request: NextRequest) {
       return response;
   }
 
-  if (pathName.startsWith("/dashboard") && !authTokens) {
+  if (pathName.startsWith("/dashboard") && !authToken) {
     const response = NextResponse.redirect(new URL("/login", request.url));
-    response.cookies.delete("authTokens");
+    response.cookies.delete("authToken");
     return response;
   }
 
-  if (authTokens && pathName.startsWith("/login")) {
+  if (authToken && pathName.startsWith("/login")) {
     const response = NextResponse.redirect(new URL("/dashboard/home", request.url));
     return response;
   }
