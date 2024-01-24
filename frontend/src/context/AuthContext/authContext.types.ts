@@ -1,3 +1,5 @@
+import { RespError } from "@/types/axios.types";
+
 export type AuthContextType = {
   userData?: UserData;
   isLoading: boolean;
@@ -15,11 +17,12 @@ export type AuthContextProps = AuthContextType & {
 export type UserData = {
   id?: string;
   email: string;
-  password: string;
   name: string;
   surname: string;
   role: Role;
   idGroup?: string;
+  creationDate: Date;
+  status: string;
 };
 
 export type Role = "USER_ROLE" | "ADMIN_ROLE" | "COORDINATOR_ROLE";
@@ -27,12 +30,6 @@ export type Role = "USER_ROLE" | "ADMIN_ROLE" | "COORDINATOR_ROLE";
 export type AuthError = {
   msg?: string;
   code?: string;
-}
-
-export type RespError = {
-  type: string,
-  msg: string,
-  code: string;
 }
 
 export type RespAuth = {

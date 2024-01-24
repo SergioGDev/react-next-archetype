@@ -5,16 +5,15 @@ import AuthContextReducer from "./AuthContextReducer";
 import { initialAuthContextState } from "./authContext.consts";
 import {
   ApiResp,
-  RespError,
   UserData,
   RespAuth,
-  AuthToken,
   AuthContextProps,
 } from "./authContext.types";
 
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { RespError } from "@/types/axios.types";
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
@@ -60,15 +59,13 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     }
 
     const { user, token } = resp.data as RespAuth;
-    const authToken: AuthToken = {
-      token,
-    };
-    Cookies.set("authTokens", JSON.stringify(authToken));dispatch({ type: "okLogin", payload: user });
+    Cookies.set("authToken", token);
+    dispatch({ type: "okLogin", payload: user });
     router.push("/dashboard/home");
-  }
+  };
 
   const logout = () => {
-    Cookies.remove("authTokens");
+    Cookies.remove("authToken");
     dispatch({ type: "logout" });
     router.replace("/login");
   };
