@@ -24,10 +24,20 @@ export class GetUserList implements GetUserListUseCase {
   async execute(): Promise<UserList> {
     // Buscar el usuario
     const userList = await this.authRepository.getUserList();
+    const userListMapped = userList.map(
+      ({ name, surname, email, role, status, creationDate }) => ({
+        name,
+        surname,
+        email,
+        role,
+        status,
+        creationDate,
+      })
+    );
 
     return {
-      userList,
-      length: userList.length
+      userList: userListMapped,
+      length: userList.length,
     };
   }
 }
