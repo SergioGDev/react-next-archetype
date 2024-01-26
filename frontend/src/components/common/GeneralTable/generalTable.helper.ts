@@ -9,7 +9,6 @@ export const sortRowsById = (
     const cellA = a.tableRow.find((cell) => cell.id === sortById);
     const cellB = b.tableRow.find((cell) => cell.id === sortById);
 
-    console.log(sortById, order)
     if (cellA && cellB) {
       // Compara las celdas numéricamente o alfabéticamente según el tipo de datos
       if (
