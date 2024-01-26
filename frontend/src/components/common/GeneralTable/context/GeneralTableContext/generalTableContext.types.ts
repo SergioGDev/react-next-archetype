@@ -1,16 +1,20 @@
-import { GeneralTableHeaderData, Order } from "../../generalTable.types";
+import { GeneralTableHeaderData, GeneralTableRowType, Order } from "../../generalTable.types";
 
-export type GeneralTableContextType<T extends Object> = {
+export type GeneralTableContextType = {
   headers: GeneralTableHeaderData[];
-  rows: T[];
+  rows: GeneralTableRowType[];
   order: Order;
+  orderBy?: string;
+  page: number;
+  rowsPerPage: number;
+  colspan: number;
+  listOfRowsPerPage: number[];
 };
 
-export type GeneralTableContextProps<T extends Object> =
-  GeneralTableContextType<T> & {
-    setInitValues: (
-      headers: GeneralTableHeaderData[],
-      rows: T[],
-      order?: Order
-    ) => void;
+export type GeneralTableContextProps = GeneralTableContextType & {
+    setInitValues: (initValues: GeneralTableContextType) => void;
+    setPage: (page: number) => void;
+    setOrder: (order: Order) => void;
+    setOrderBy: (orderBy: string) => void;
+    setRowsPerPage: (rowsPerPage: number) => void;
   };

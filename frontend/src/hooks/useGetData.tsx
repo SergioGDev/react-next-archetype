@@ -25,8 +25,7 @@ export const useGetData = <T extends Object>(
           const { msg } = resp.data.data as RespError;
           throw new Error("Error:" + msg);
         }
-        console.log('-> ', resp.data)
-  
+        
         if (resp.data) {
           setData(resp.data);
           setIsLoading(false);

@@ -1,56 +1,31 @@
-import { Data, Order } from "./generalTable.types";
+import { GeneralTableRowType, Order } from "./generalTable.types";
 
-export const createData = (
-  id: number,
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-): Data => {
-  return {
-    id,
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-};
+export const sortRowsById = (
+  rows: GeneralTableRowType[],
+  sortById: string,
+  order: Order
+): GeneralTableRowType[] => {
+  return rows.slice().sort((a, b) => {
+    const cellA = a.tableRow.find((cell) => cell.id === sortById);
+    const cellB = b.tableRow.find((cell) => cell.id === sortById);
 
-export const descendingComparator = <T>(a: T, b: T, orderBy: keyof T) => {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-};
-
-export const stableSort = <T>(
-  array: readonly T[],
-  comparator: (a: T, b: T) => number
-) => {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
+    console.log(sortById, order)
+    if (cellA && cellB) {
+      // Compara las celdas numéricamente o alfabéticamente según el tipo de datos
+      if (
+        typeof cellA.cellData === "number" &&
+        typeof cellB.cellData === "number"
+      ) {
+        return order === "asc"
+          ? cellA.cellData - cellB.cellData
+          : cellB.cellData - cellA.cellData;
+      } else {
+        return order === "asc"
+          ? String(cellA.cellData).localeCompare(String(cellB.cellData))
+          : String(cellB.cellData).localeCompare(String(cellA.cellData));
+      }
     }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-};
 
-export const getComparator = <Key extends keyof any>(
-  order: Order,
-  orderBy: Key
-): ((
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number) => {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    return 0;
+  });
 };

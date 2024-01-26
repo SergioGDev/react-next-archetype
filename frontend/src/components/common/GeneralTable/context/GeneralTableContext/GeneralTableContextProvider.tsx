@@ -2,32 +2,50 @@ import React, { PropsWithChildren, useContext, useReducer } from "react";
 
 import { GeneralTableContextReducer } from "./GeneralTableContextReducer";
 import { GeneralTableContext } from "./GeneralTableContext";
-import { GeneralTableHeaderData, Order } from "../../generalTable.types";
-import { GeneralTableContextProps } from "./generalTableContext.types";
-import { createInitialGeneralTableContextState } from "./generalTableContext.helpers";
+import { Order } from "../../generalTable.types";
+import { initialGeneralTableContextState } from "./generalTableContext.consts";
+import {
+  GeneralTableContextProps,
+  GeneralTableContextType,
+} from "./generalTableContext.types";
 
-export const GeneralTableContextProvider = <T extends Object>({
+export const GeneralTableContextProvider = ({
   children,
 }: PropsWithChildren) => {
-  const initialGeneralTableContextState =
-    createInitialGeneralTableContextState<T>([], [], "asc");
-
   const [generalTableContextData, dispatch] = useReducer(
     GeneralTableContextReducer,
     initialGeneralTableContextState
   );
 
-  const setInitValues = (
-    headers: GeneralTableHeaderData[],
-    rows: T[],
-    order: Order = "asc"
-  ) => dispatch({ type: "setInitValues", payload: { headers, rows, order } });
+  const setInitValues = (initValues: GeneralTableContextType) => {
+    dispatch({ type: "setInitValues", payload: initValues });
+  };
 
-  const providerObject: GeneralTableContextProps<T> = {
-    ...(generalTableContextData as GeneralTableContextProps<T>),
+  const setPage = (page: number) => {
+    dispatch({ type: "setPage", payload: page });
+  };
+
+  const setOrder = (order: Order) => {
+    dispatch({ type: "setOrder", payload: order });
+  };
+
+  const setOrderBy = (orderBy: string) => {
+    dispatch({ type: "setOrderBy", payload: orderBy });
+  };
+
+  const setRowsPerPage = (rowsPerPage: number) => {
+    dispatch({ type: "setRowsPerPage", payload: rowsPerPage });
+  };
+
+  const providerObject: GeneralTableContextProps = {
+    ...generalTableContextData,
 
     // Add here the methods of the provider
     setInitValues,
+    setPage,
+    setOrder,
+    setOrderBy,
+    setRowsPerPage,
   };
 
   return (

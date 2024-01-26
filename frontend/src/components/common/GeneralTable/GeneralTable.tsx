@@ -1,10 +1,12 @@
-import React from "react";
-import styles from "./GeneralTable.module.scss";
+import React, { useContext, useEffect } from "react";
 
 import GeneralTableBody from "./components/GeneralTableBody/GeneralTableBody";
 import GeneralTableHeader from "./components/GeneralTableHeader/GeneralTableHeader";
-import { Data, GeneralTableProps, Order } from "./generalTable.types";
-import { rows } from "./generalTable.consts";
+import { GeneralTableProps } from "./generalTable.types";
+import {
+  GeneralTableContextProvider,
+  useGeneralTableContext,
+} from "./context/GeneralTableContext/GeneralTableContextProvider";
 
 import {
   Paper,
@@ -13,67 +15,60 @@ import {
   TablePagination,
   Table,
 } from "@mui/material";
-import { useGeneralTable } from "./hooks/useGeneralTable";
-import { GeneralTableContextProvider, useGeneralTableContext } from "./context/GeneralTableContext/GeneralTableContextProvider";
+import GeneralTablePagination from "./components/GeneralTablePagination/GeneralTablePagination";
 
-const GeneralTable = <T extends Object>({
-  rows,
-  headers,
-}: GeneralTableProps<T>) => {
-  const {setInitValues} = useGeneralTableContext();
+const GeneralTable = (props: GeneralTableProps) => {
+  return (
+    <GeneralTableContextProvider>
+      <GeneralTableContainer {...props} />
+    </GeneralTableContextProvider>
+  );
+};
 
+const GeneralTableContainer = ({
+  tableHeaders,
+  tableRows,
+}: GeneralTableProps) => {
   const {
-    handleChangePage,
-    handleChangeRowsPerPage,
-    handleRequestSort,
-    handleSelectAllClick,
+    setInitValues,
+    rows,
+    listOfRowsPerPage,
     rowsPerPage,
     page,
-    selected,
-    orderBy,
-    order,
-  } = useGeneralTable();
+    setPage,
+    setRowsPerPage,
+  } = useGeneralTableContext();
 
-  setInitValues(headers, rows);  
+  useEffect(
+    () =>
+      setInitValues({
+        headers: tableHeaders,
+        rows: tableRows,
+        order: "asc",
+        rowsPerPage: 10,
+        colspan: tableRows.length > 0 ? tableRows[0].tableRow.length : 1,
+        listOfRowsPerPage: [10, 20, 30],
+        page: 0,
+      }),
+    []
+  );
 
   return (
-    // <GeneralTableBody />
-    <GeneralTableContextProvider>
-      <Box sx={{ width: "100%" }}>
-        <Paper sx={{ width: "100%", mb: 2 }}>
-          <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size="medium"
-            >
-              {/* Header */}
-              <GeneralTableHeader
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
+        <TableContainer>
+          <Table sx={{ minWidth: 750 }} size="medium">
+            {/* Header */}
+            <GeneralTableHeader />
 
-              {/* Body */}
-              <GeneralTableBody />
-            </Table>
-          </TableContainer>
+            {/* Body */}
+            <GeneralTableBody />
+          </Table>
+        </TableContainer>
 
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Box>
-    </GeneralTableContextProvider>
+        <GeneralTablePagination />
+      </Paper>
+    </Box>
   );
 };
 

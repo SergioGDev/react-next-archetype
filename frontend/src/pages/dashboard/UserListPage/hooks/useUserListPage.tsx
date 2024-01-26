@@ -1,7 +1,12 @@
-import { UseUserListPageProps } from '../userListPage.types';
+import {
+  UserListPageApiRespData,
+} from "../userListPage.types";
+import { useGetData } from "@/hooks/useGetData";
 
-export const useUserListPage = ({ exampleProp }: UseUserListPageProps) => {
-    // Write here the full functionality of the component (useState, useEffect, etc...)
+export const useUserListPage = () => {
+  const { data, isLoading } = useGetData<UserListPageApiRespData>(
+    "/api/auth/user-list"
+  );
 
-    return {};
+  return { data, isLoading };
 };

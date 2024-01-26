@@ -1,5 +1,5 @@
-// Put here the GeneralTableBody functions helpers. For example:
+import { GeneralTableCellType } from "../../generalTable.types";
 
-// export const helperOne = () => {
-//   return 'helperOne';
-// }
+export const sortCellsByPosition = (tableRow: GeneralTableCellType[]): GeneralTableCellType[] => {
+  return tableRow.slice().sort((a, b) => a.position - b.position);
+};

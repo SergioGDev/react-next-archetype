@@ -1,11 +1,13 @@
-// Props for the component
-export type UserListPageProps = {
-    // Put here the UserListPageProps. For example:
-    exampleProp: string;
+import { GeneralTableCellType } from "@/components/common/GeneralTable/generalTable.types";
+import { UserData } from "@/context/AuthContext/authContext.types";
+import { RespError } from "@/types/axios.types";
+
+export type UserListPageApiResp = {
+  data?: UserListPageApiRespData | RespError | any;
+  status: number;
 };
 
-// Props for the hook
-export type UseUserListPageProp = {
-    // Put here the UseUserListPageProp. For example:
-    exampleProp: string;
+export type UserListPageApiRespData = {
+  length: number;
+  userList: UserData[];
 };
