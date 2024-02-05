@@ -4,12 +4,13 @@ import {
   LoginUser,
   RegisterUser,
   RegisterUserDto,
+  UserEntity,
 } from "../../domain";
 import { AuthRepository } from "../../domain/repositories/auth.repository";
 import { JwtAdapter } from "../../config";
-import { UserModel } from "../../data/mongodb";
-import { LoginUserDto } from "../../domain/entities/dtos/auth";
+import { LoginUserDto, RenewTokenDto } from "../../domain/entities/dtos/auth";
 import { GetUserList } from "../../domain/use-cases/auth/get-user-list.use-case";
+import { RenewToken } from "../../domain/use-cases/auth/renew-token.use-case";
 
 export class AuthController {
   // Inyección de Dependencias
@@ -44,6 +45,18 @@ export class AuthController {
 
     new LoginUser(this.authRepository)
       .execute(loginUserDto!)
+      .then((data) => res.json(data))
+      .catch((error) => this.handleError(error, res));
+  };
+
+  // RENEW TOKEN
+  renewToken = (req: Request, res: Response) => {
+    const [error, renewTokenDto] = RenewTokenDto.create(req.body);
+
+    if (error) return res.status(400).json({ error });
+
+    new RenewToken(this.authRepository)
+      .execute(renewTokenDto!)
       .then((data) => res.json(data))
       .catch((error) => this.handleError(error, res));
   };

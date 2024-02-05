@@ -1,16 +1,15 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { envs } from "./envs";
+import { UserEntity } from "../domain";
 
 const JWT_SEED = envs.JWT_SEED;
 
 export class JwtAdapter {
-  
   static async generateToken(
     payload: Object,
     duration: string = "2h"
   ): Promise<string | null> {
     return new Promise((resolve) => {
-
       jwt.sign(payload, JWT_SEED, { expiresIn: duration }, (err, token) => {
         if (err) return resolve(null);
 
@@ -24,7 +23,13 @@ export class JwtAdapter {
       jwt.verify(token, JWT_SEED, (err, decoded) => {
         if (err) return resolve(null);
         resolve(decoded as T);
-      })
+      });
+    });
+  }
+
+  static decodeToken(token: string): Promise<UserEntity | string | JwtPayload | null> {
+    return new Promise((resolve) => {
+      resolve(jwt.decode(token))
     });
   }
 }

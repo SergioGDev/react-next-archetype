@@ -1,5 +1,5 @@
 import { AuthDatasource, AuthRepository, RegisterUserDto, UserEntity } from '../../domain';
-import { LoginUserDto } from '../../domain/entities/dtos/auth';
+import { LoginUserDto, RenewTokenDto } from '../../domain/entities/dtos/auth';
 
 export class AuthRepositoryImpl implements AuthRepository {
 
@@ -17,6 +17,10 @@ export class AuthRepositoryImpl implements AuthRepository {
 
     register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
         return this.authDatasource.register(registerUserDto);
+    }
+
+    renewToken(renewTokenDto: RenewTokenDto): Promise<UserEntity> {
+        return this.authDatasource.renewToken(renewTokenDto);
     }
 
 }

@@ -5,10 +5,10 @@ export class UserEntity {
         public name: string,
         public surname: string,
         public email: string,
-        public password: string,
         public role: string,
         public creationDate: Date,
         public status: string,
+        public password?: string,
         public idGroup?: string,
         public img?: string,
     ) {}

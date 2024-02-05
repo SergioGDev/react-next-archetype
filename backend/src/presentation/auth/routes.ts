@@ -16,6 +16,7 @@ export class AuthRoutes {
     // Definir todas mis rutas principales
     router.post("/login", controller.loginUser);
     router.post("/register", controller.registerUser);
+    router.post("/renew-token", controller.renewToken);
 
     router.get("/user-list", [AuthMiddleware.validateJwt], controller.getUsers);
 

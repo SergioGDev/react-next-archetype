@@ -1,7 +1,7 @@
 import { CustomError, UserEntity } from "../../domain";
 
 export class UserMapper {
-  static userEntityFromObject(object: { [key: string]: any }) {
+  static userEntityFromObject(object: { [key: string]: any }, passwordRequired = true) {
     const {
       id,
       _id,
@@ -16,11 +16,11 @@ export class UserMapper {
       img,
     } = object;
 
-    if (!_id || !id) throw CustomError.badRequest("Missing id");
+    if (_id === undefined && id === undefined) throw CustomError.badRequest("Missing id");
     if (!name) throw CustomError.badRequest("Missing name");
     if (!surname) throw CustomError.badRequest("Missing surname");
     if (!email) throw CustomError.badRequest("Missing email");
-    if (!password) throw CustomError.badRequest("Missing password");
+    if (!password && passwordRequired) throw CustomError.badRequest("Missing password");
     if (!role) throw CustomError.badRequest("Missing role");
 
     return new UserEntity(
@@ -28,10 +28,10 @@ export class UserMapper {
       name,
       surname,
       email,
-      password,
       role,
       creationDate,
       status,
+      password,
       idGroup,
       img
     );
