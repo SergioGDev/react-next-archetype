@@ -77,11 +77,13 @@ export class AuthDatasourceImpl implements AuthDatasource {
       if (exist) throw CustomError.badRequest("User already exists");
 
       // 2. Solamente puede existir una cuenta de admin
-      const existsAdminAccount = await UserModel.findOne({
-        role: "ADMIN_ROLE",
-      });
-      if (existsAdminAccount)
-        throw CustomError.badRequest("Already exist an admin account");
+      if (role === 'ADMIN_ROLE') {
+        const existsAdminAccount = await UserModel.findOne({
+          role: "ADMIN_ROLE",
+        });
+        if (existsAdminAccount)
+          throw CustomError.badRequest("Already exist an admin account");
+      }
 
       const user = await UserModel.create({
         name,
