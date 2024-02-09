@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { AuthController } from "./controller";
-import { AuthRepository } from "../../domain/repositories/auth.repository";
 import { AuthDatasourceImpl, AuthRepositoryImpl } from "../../infrastructure";
 import { AuthMiddleware } from "../middleware/auth.middleware";
 

@@ -1,16 +1,10 @@
 import { Request, Response } from "express";
-import {
-  CustomError,
-  LoginUser,
-  RegisterUser,
-  RegisterUserDto,
-  UserEntity,
-} from "../../domain";
+import { CustomError } from "../../domain";
 import { AuthRepository } from "../../domain/repositories/auth.repository";
-import { JwtAdapter } from "../../config";
-import { LoginUserDto, RenewTokenDto } from "../../domain/entities/dtos/auth";
+import { LoginUserDto, RegisterUserDto, RenewTokenDto } from "../../domain/entities/dtos/auth";
 import { GetUserList } from "../../domain/use-cases/auth/get-user-list.use-case";
 import { RenewToken } from "../../domain/use-cases/auth/renew-token.use-case";
+import { LoginUser, RegisterUser } from "../../domain/use-cases/auth";
 
 export class AuthController {
   // Inyección de Dependencias

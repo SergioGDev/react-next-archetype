@@ -13,6 +13,7 @@ export class GroupRoutes {
     const controller = new GroupController(groupRepository);
 
     router.post("/register-group", [AuthMiddleware.validateJwt], controller.registerGroup);
+    router.post("/groups", [AuthMiddleware.validateJwt], controller.getGroupList);
 
     return router;
   }
