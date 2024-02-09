@@ -33,7 +33,7 @@ export class GroupController {
 
   // GET GROUP LIST
   getGroupList = (req: Request, res: Response) => {
-    const getGroupListDto = GetGroupListDto.create(req.body);
+    const getGroupListDto = GetGroupListDto.create(req.query);
 
     new GetGroupList(this.groupRepository)
       .execute(getGroupListDto)
