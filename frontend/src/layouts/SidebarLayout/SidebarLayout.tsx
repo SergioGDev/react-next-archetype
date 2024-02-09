@@ -6,7 +6,6 @@ import {
   useSidebarContext,
 } from "@/context/SidebarContext/SidebarContextProvider";
 import { Sidebar, Toolbar } from "@/components/common/";
-import { useAuthContext } from "@/context/AuthContext";
 
 export type SidebarLayoutProps = PropsWithChildren;
 
@@ -20,7 +19,6 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
 
 const SidebarLayoutContent = ({ children }: SidebarLayoutProps) => {
   const { sidebarOpened } = useSidebarContext();
-  useAuthContext();
 
   return (
     <div className={styles.container}>€

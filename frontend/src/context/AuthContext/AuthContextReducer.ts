@@ -2,6 +2,7 @@ import { AuthContextType, AuthError, UserData } from "./authContext.types";
 
 type AuthAction =
   | { type: "startLogin" }
+  | { type: "setUserDataFromCookie"; payload: UserData }
   | { type: "okLogin"; payload: UserData }
   | { type: "errorLoging"; payload: AuthError }
   | { type: "startRegisterUser" }
@@ -14,6 +15,9 @@ const AuthContextReducer = (
   switch (action.type) {
     case "startLogin":
       return { isLoading: true, errorLoading: undefined, userData: undefined };
+
+    case "setUserDataFromCookie":
+      return { ...state, userData: action.payload }
 
     case "okLogin":
       return {

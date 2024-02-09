@@ -2,4 +2,3 @@
 export * from "./AuthContext";
 export * from "./AuthContextReducer";
 export * from "./AuthContextProvider";
-export * from "./useAuthContext";

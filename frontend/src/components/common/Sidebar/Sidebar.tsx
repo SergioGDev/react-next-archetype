@@ -4,22 +4,23 @@ import styles from "./Sidebar.module.scss";
 import { SidebarLinks } from "./sidebar.helper";
 import { SidebarSectionItem, SidebarSectionType } from "./sidebar.types";
 import { useSidebarContext } from "@/context/SidebarContext/SidebarContextProvider";
+import { useAuthContext } from "@/context/AuthContext";
 
 import { LogOut, SidebarClose, SidebarOpen } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useAuthContext } from "@/context/AuthContext";
 
 export const Sidebar = () => {
   const pathname = usePathname();
   const { sidebarOpened, setSidebarOpened } = useSidebarContext();
-  const { logout } = useAuthContext();
+  const { userData, logout } = useAuthContext();
 
   return (
     <div
       className={`${styles.container} ${sidebarOpened ? styles.active : ""}`}
     >
       <div className={styles.sidebarSubcontainer}>
+        <div className={styles.sectionName}>Hi {userData?.name}!</div>
         {SidebarLinks.map(
           ({ title, vLinks }: SidebarSectionType, index: number) => {
             return (

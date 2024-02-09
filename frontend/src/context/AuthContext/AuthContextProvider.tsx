@@ -1,8 +1,12 @@
-import { PropsWithChildren, useReducer } from "react";
+import { PropsWithChildren, useContext, useEffect, useReducer, useState } from "react";
 
 import AuthContext from "./AuthContext";
 import AuthContextReducer from "./AuthContextReducer";
-import { initialAuthContextState } from "./authContext.consts";
+import {
+  AUTH_TOKEN,
+  USER_DATA,
+  initialAuthContextState,
+} from "./authContext.consts";
 import {
   ApiResp,
   UserData,
@@ -21,6 +25,15 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     AuthContextReducer,
     initialAuthContextState
   );
+
+  useEffect(() => {
+    // If we have a cookie and we don't have info of a user, we have to renew the token
+    if (Cookies.get(AUTH_TOKEN) && Cookies.get(USER_DATA) && !authContextData.userData) {
+      console.log(JSON.parse(Cookies.get(USER_DATA)!));
+      const userData = JSON.parse(Cookies.get(USER_DATA)!);
+      dispatch({ type: 'setUserDataFromCookie', payload: userData })
+    }
+  }, []);
 
   const login = (email: string, password: string) => {
     dispatch({ type: "startLogin" });
@@ -59,13 +72,15 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     }
 
     const { user, token } = resp.data as RespAuth;
-    Cookies.set("authToken", token);
+    Cookies.set(AUTH_TOKEN, token);
     dispatch({ type: "okLogin", payload: user });
+    Cookies.set(USER_DATA, JSON.stringify(user));
     router.push("/dashboard/home");
   };
 
   const logout = () => {
-    Cookies.remove("authToken");
+    Cookies.remove(AUTH_TOKEN);
+    localStorage.removeItem(USER_DATA);
     dispatch({ type: "logout" });
     router.replace("/login");
   };
@@ -83,3 +98,5 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     </AuthContext.Provider>
   );
 };
+
+export const useAuthContext = () => useContext(AuthContext);
