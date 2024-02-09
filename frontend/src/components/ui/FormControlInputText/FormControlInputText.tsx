@@ -19,6 +19,7 @@ const FormControlInputText = ({
   shrink,
   required,
   multiline,
+  disabled,
   rows,
   minRows,
   maxRows,
@@ -44,6 +45,7 @@ const FormControlInputText = ({
 }: FormControlInputTextProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [isFirstTime, setIsFirstTime] = useState(true);
   const { register, setValue, trigger, watch } = useFormContext();
 
   useEffect(() => {
@@ -56,7 +58,7 @@ const FormControlInputText = ({
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    trigger(name);
+    !isFirstTime && trigger(name);
     onChange?.(event);
   };
 
@@ -65,6 +67,7 @@ const FormControlInputText = ({
     event.stopPropagation();
     trigger(name);
     setIsFocused(false);
+    setIsFirstTime(false);
     onBlur?.(event);
   };
 
@@ -105,6 +108,7 @@ const FormControlInputText = ({
         readOnly={readOnly}
         multiline={multiline}
         rows={rows}
+        disabled={disabled}
         minRows={minRows}
         maxRows={maxRows}
         onFocus={() => setIsFocused(true)}

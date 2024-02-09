@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./UserListPage.module.scss";
 
 import GeneralTable from "@/components/common/GeneralTable/GeneralTable";
 import Spinner from "@/components/common/Spinner";

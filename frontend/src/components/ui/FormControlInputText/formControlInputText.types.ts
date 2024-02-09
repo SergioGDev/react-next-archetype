@@ -12,6 +12,7 @@ export type FormControlInputTextProps = {
   defaultValue?: string | number;
   readOnly?: boolean;
   error?: boolean;
+  disabled?: boolean;
   multiline?: boolean;
   rows?: string | number;
   minRows?: string | number;

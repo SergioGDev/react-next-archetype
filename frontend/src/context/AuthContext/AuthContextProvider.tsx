@@ -1,4 +1,4 @@
-import { PropsWithChildren, useContext, useEffect, useReducer, useState } from "react";
+import { PropsWithChildren, useContext, useEffect, useReducer } from "react";
 
 import AuthContext from "./AuthContext";
 import AuthContextReducer from "./AuthContextReducer";
@@ -29,7 +29,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     // If we have a cookie and we don't have info of a user, we have to renew the token
     if (Cookies.get(AUTH_TOKEN) && Cookies.get(USER_DATA) && !authContextData.userData) {
-      console.log(JSON.parse(Cookies.get(USER_DATA)!));
       const userData = JSON.parse(Cookies.get(USER_DATA)!);
       dispatch({ type: 'setUserDataFromCookie', payload: userData })
     }
