@@ -1,20 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import Spinner from "@/components/common/Spinner";
 import FormControlInputText from "@/components/ui/FormControlInputText";
-import { AddGroupForm } from "./addGroupFormWidget.types";
 import { emailPattern } from "@/consts/pattern.consts";
-import { useAuthContext } from "@/context/AuthContext";
 
-import { FormProvider, useForm } from "react-hook-form";
-import { Box, Button, Snackbar } from "@mui/material";
+import { FormProvider } from "react-hook-form";
+import { Box, Button } from "@mui/material";
 import { CloudUpload, Save } from "@mui/icons-material";
 import {
   maxDescriptionLength,
   maxNameLength,
   minNameLength,
 } from "./addGroupFormWidget.consts";
-import { usePostData } from "@/hooks/usePostData";
 import { useAddGroupFormWidget } from "./hooks/useAddGroupFormWidget";
 
 const AddGroupFormWidget = () => {
