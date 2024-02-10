@@ -6,17 +6,22 @@ import { RespData, RespError } from "@/types/axios.types";
 
 export const useGetData = <T extends Object>(
   url: string,
+  queryParams: { [key: string]: string } = {},
   needAuthorization = true
 ) => {
   const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState(true);
   const authToken = Cookies.get("authToken");
+  const queryParamsUrl: string = Object.keys(queryParams)
+    .map((key: string) => `?${key}=${queryParams[key]}`)
+    .join("");
 
   useEffect(() => {
     axios
-      .get<RespData<T>>(url, {
+      .get<RespData<T>>(`${url}${queryParamsUrl}`, {
         headers: {
-          Authorization: needAuthorization && authToken ? `Bearer ${authToken}` : "",
+          Authorization:
+            needAuthorization && authToken ? `Bearer ${authToken}` : "",
         },
       })
       .then((resp: RespData<T>) => {
@@ -25,7 +30,7 @@ export const useGetData = <T extends Object>(
           const { msg } = resp.data.data as RespError;
           throw new Error("Error:" + msg);
         }
-        
+
         if (resp.data) {
           setData(resp.data);
           setIsLoading(false);
@@ -37,7 +42,6 @@ export const useGetData = <T extends Object>(
         throw new Error("Error:" + error);
       });
   }, []);
-
 
   return { data, isLoading };
 };
