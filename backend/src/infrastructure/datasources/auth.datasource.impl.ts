@@ -110,7 +110,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
     const { token } = renewTokenDto;
 
     try {
-      const respValidateToken = this.validateToken(renewTokenDto!.token);
+      const respValidateToken = await this.validateToken(renewTokenDto!.token);
       if (!respValidateToken) throw CustomError.unauthorized("Invalid token");
 
       const decoded = await this.decodeToken(token);
