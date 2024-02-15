@@ -10,6 +10,7 @@ export type AuthContextProps = AuthContextType & {
   registerUser: (userData: UserData) => void;
   login: (email: string, password: string) => void;
   logout: () => void;
+  renewToken: () => void;
 };
 
 // Add here the common context's types. For example:

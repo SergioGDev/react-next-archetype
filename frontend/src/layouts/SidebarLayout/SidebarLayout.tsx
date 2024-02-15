@@ -21,7 +21,7 @@ const SidebarLayoutContent = ({ children }: SidebarLayoutProps) => {
   const { sidebarOpened } = useSidebarContext();
 
   return (
-    <div className={styles.container}>€
+    <div className={styles.container}>
       <div
         className={`${styles.sidebarContainer} ${
           sidebarOpened ? styles.sidebarOpened : ""
@@ -41,7 +41,7 @@ const SidebarLayoutContent = ({ children }: SidebarLayoutProps) => {
             sidebarOpened ? styles.sidebarOpened : ""
           }`}
         >
-          {children}
+          <div className={styles.maxWidthContainer}>{children}</div>
         </div>
       </div>
     </div>

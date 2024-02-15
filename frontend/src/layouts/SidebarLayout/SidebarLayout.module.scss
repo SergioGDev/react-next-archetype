@@ -1,63 +1,69 @@
 @import "@/themes/_variables.scss";
 
 .container {
-    width: 100vw;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+
+  .sidebarContainer {
+    width: $sidebar-closed-width;
     height: 100vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: stretch;
+    transition: $sidebar-transition-time width ease-in-out;
 
-    .sidebarContainer {
-        width: $sidebar-closed-width;
-        height: 100vh;
+    &.sidebarOpened {
+      transition: $sidebar-transition-time width ease-in-out;
+      width: $sidebar-opened-width;
+    }
+  }
+
+  .mainContent {
+    .toolbarContent {
+      display: none;
+    }
+
+    .pageContainer {
+      width: calc(100vw - $sidebar-closed-width);
+      transition: $sidebar-transition-time width ease-in-out;
+      height: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+
+      &.sidebarOpened {
+        width: calc(100vw - $sidebar-opened-width);
         transition: $sidebar-transition-time width ease-in-out;
-        
-        &.sidebarOpened {
-            transition: $sidebar-transition-time width ease-in-out;
-            width: $sidebar-opened-width;
-        }
-    }
-    
-    .mainContent {
+      }
 
-        .toolbarContent {
-            display: none;
-        }
-
-        .pageContainer {
-            width: calc(100vw - $sidebar-closed-width);
-            transition: $sidebar-transition-time width ease-in-out;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            
-            &.sidebarOpened {
-                width: calc(100vw - $sidebar-opened-width);
-                transition: $sidebar-transition-time width ease-in-out;
-            }
-        }
+      .maxWidthContainer {
+        width: 1200px;
+        max-width: 100%;
+        padding: 40px;
+        box-sizing: border-box;
+      }
     }
+  }
 }
 
 /* xs */
 @media screen and (max-width: 599px) {
-    .container {
+  .container {
+    .mainContent {
+      .toolbarContent {
+        display: block;
+      }
 
-        .mainContent {
-            .toolbarContent {
-                display: block;
-            }
+      .pageContainer {
+        height: calc(100% - $toolbar-height);
+        width: 100vw;
 
-            .pageContainer {
-                height: calc(100% - $toolbar-height);
-                width: 100vw;
-
-                &.sidebarOpened {
-                    width: 100vw;
-                }
-            }
+        &.sidebarOpened {
+          width: 100vw;
         }
+      }
     }
+  }
 }

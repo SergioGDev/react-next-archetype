@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { RespData, RespError } from "@/types/axios.types";
+import { useAuthContext } from "@/context/AuthContext";
 
 export const useGetData = <T extends Object>(
   url: string,
@@ -11,6 +12,8 @@ export const useGetData = <T extends Object>(
 ) => {
   const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState(true);
+  const { logout } = useAuthContext();
+
   const authToken = Cookies.get("authToken");
   const queryParamsUrl: string = Object.keys(queryParams)
     .map((key: string) => `?${key}=${queryParams[key]}`)
@@ -39,7 +42,10 @@ export const useGetData = <T extends Object>(
       .catch((error) => {
         setIsLoading(false);
         setData(undefined);
-        throw new Error("Error:" + error);
+        if (error.response.status === 401) {
+          logout();
+        }
+        // throw new Error("Error:" + error);
       });
   }, []);
 

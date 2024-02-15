@@ -1,8 +1,12 @@
+import { SvgIconComponent } from "@mui/icons-material";
+
 export type GeneralTableProps = {
   tableHeaders: GeneralTableHeaderData[];
   tableRows: GeneralTableRowType[];
+  tableActions?: GeneralTableActionType[];
 };
 
+// HEADER TYPES
 export type GeneralTableHeaderData = {
   id: string;
   label: string;
@@ -10,6 +14,7 @@ export type GeneralTableHeaderData = {
   sorted?: Order;
 };
 
+// ROW TYPES
 export type GeneralTableRowType = {
   tableRow: GeneralTableCellType[];
 };
@@ -21,3 +26,15 @@ export type GeneralTableCellType = {
 };
 
 export type Order = "asc" | "desc";
+
+// ACTIONS TYPES
+export type GeneralTableActionType = {
+  Icon: SvgIconComponent;
+  actionType: GeneralTableAction;
+  codeAction?: () => void;
+  showCondition?: boolean;
+}
+
+export type GeneralTableAction =
+  | "GO_TO_PAGE_ACTION"
+  | "DELETE_ACTION";

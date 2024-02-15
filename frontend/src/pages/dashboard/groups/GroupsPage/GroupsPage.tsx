@@ -8,7 +8,7 @@ import Spinner from "@/components/common/Spinner";
 import { useAuthContext } from "@/context/AuthContext";
 import GeneralTable from "@/components/common/GeneralTable/GeneralTable";
 import { getRowsGroupsData } from "./groupsPage.helpers";
-import { GroupData, GroupListPageApiRespData } from "@/types/group.types";
+import { GroupListPageApiRespData } from "@/types/group.types";
 import { headersGroupDataTable } from "./groupsPage.consts";
 
 const GroupsPage = () => {
@@ -29,14 +29,10 @@ const GroupsPage = () => {
     true
   );
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   if (isLoading) return <Spinner />;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 2, padding: 5 }}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <Typography variant="h3">Groups</Typography>
       <Box
         sx={{
@@ -44,8 +40,7 @@ const GroupsPage = () => {
           flexDirection: "row",
           justifyContent: "flex-end",
           gap: 1,
-          paddingX: 5,
-          paddingY: 3,
+          paddingY: 1,
         }}
       >
         <Button

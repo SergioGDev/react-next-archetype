@@ -1,12 +1,12 @@
 import React from "react";
 
 import { sortRowsById } from "../../generalTable.helper";
-import { TableBody, TableCell, TableRow } from "@mui/material";
+import { IconButton, TableBody, TableCell, TableRow } from "@mui/material";
 import { useGeneralTableContext } from "../../context/GeneralTableContext/GeneralTableContextProvider";
 import { sortCellsByPosition } from "./generalTableBody.helper";
 
 const GeneralTableBody = () => {
-  const { order, orderBy, page, rowsPerPage, rows, colspan } =
+  const { order, orderBy, page, rowsPerPage, rows, colspan, tableActions } =
     useGeneralTableContext();
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -28,6 +28,15 @@ const GeneralTableBody = () => {
             {sortCellsByPosition(tableRow).map(({ id, cellData }) => {
               return <TableCell key={`${index}-${id}`}>{cellData}</TableCell>;
             })}
+            {tableActions && (
+              <TableCell>
+                {tableActions.map(({ Icon, actionType }, index) => (
+                  <IconButton key={`${index}_${actionType}`}>
+                    <Icon />
+                  </IconButton>
+                ))}
+              </TableCell>
+            )}
           </TableRow>
         );
       })}

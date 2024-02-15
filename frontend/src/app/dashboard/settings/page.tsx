@@ -1,1 +1,1 @@
-export { default } from "@/pages/dashboard/SettingsPage";
+export { default } from "@/pages/dashboard/settings/SettingsPage";

@@ -5,7 +5,7 @@ import AddGroupFormWidget from "@/widgets/forms/AddGroupFormWidget/AddGroupFormW
 
 const AddGroupPage = () => {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 2, padding: 5 }}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <Typography variant="h4">Add group</Typography>
       <Box
         sx={{ padding: 3 }}

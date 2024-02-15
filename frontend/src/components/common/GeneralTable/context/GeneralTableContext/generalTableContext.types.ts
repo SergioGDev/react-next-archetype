@@ -1,8 +1,9 @@
-import { GeneralTableHeaderData, GeneralTableRowType, Order } from "../../generalTable.types";
+import { GeneralTableActionType, GeneralTableHeaderData, GeneralTableRowType, Order } from "../../generalTable.types";
 
 export type GeneralTableContextType = {
   headers: GeneralTableHeaderData[];
   rows: GeneralTableRowType[];
+  tableActions?: GeneralTableActionType[];
   order: Order;
   orderBy?: string;
   page: number;

@@ -18,21 +18,49 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { RespError } from "@/types/axios.types";
+import { usePostData } from "@/hooks/usePostData";
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
+  const { data: dataRenewToken, postData: postRenewToken } =
+    usePostData("/api/auth/renew");
   const [authContextData, dispatch] = useReducer(
     AuthContextReducer,
     initialAuthContextState
   );
 
   useEffect(() => {
-    // If we have a cookie and we don't have info of a user, we have to renew the token
-    if (Cookies.get(AUTH_TOKEN) && Cookies.get(USER_DATA) && !authContextData.userData) {
-      const userData = JSON.parse(Cookies.get(USER_DATA)!);
-      dispatch({ type: 'setUserDataFromCookie', payload: userData })
-    }
+    // If we have a cookie and we don't have info of a user
+    getUserDataFromCookie();
   }, []);
+
+  const getUserDataFromCookie = () => {
+    if (Cookies.get(USER_DATA) && !authContextData.userData) {
+      const userData = JSON.parse(Cookies.get(USER_DATA)!);
+      dispatch({ type: "setUserDataFromCookie", payload: userData });
+    } else {
+      logout();
+    }
+  };
+
+  const renewToken = () => {
+    axios
+      .post("/api/auth/renew", {
+        token: Cookies.get(AUTH_TOKEN),
+      })
+      .then((resp: ApiResp) => {
+        if (resp.status !== 200) {
+          const { msg, code } = resp.data as RespError;
+          dispatch({ type: "errorLoging", payload: { msg, code } });
+          console.log("Unexpected error");
+        }
+
+        const { user, token } = resp.data as RespAuth;
+        Cookies.set(AUTH_TOKEN, token);
+        dispatch({ type: "okLogin", payload: user });
+        Cookies.set(USER_DATA, JSON.stringify(user));
+      });
+  };
 
   const login = (email: string, password: string) => {
     dispatch({ type: "startLogin" });
@@ -67,7 +95,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     if (resp.status !== 200) {
       const { msg, code } = resp.data as RespError;
       dispatch({ type: "errorLoging", payload: { msg, code } });
-      throw new Error("Error");
+      console.log("Unexpected error");
     }
 
     const { user, token } = resp.data as RespAuth;
@@ -89,6 +117,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     login,
     logout,
     registerUser,
+    renewToken,
   };
 
   return (

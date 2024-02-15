@@ -14,7 +14,6 @@ export const usePostData = <T extends Object>(
 
   const postData = (body: { [key: string]: any }) => {
     setIsLoading(true);
-    console.log({ ...body });
     axios
       .post(
         url,
@@ -40,7 +39,7 @@ export const usePostData = <T extends Object>(
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log('--> ERROR usePostData', error)
         setIsLoading(false);
         setData(undefined);
         throw new Error("Error:" + error);

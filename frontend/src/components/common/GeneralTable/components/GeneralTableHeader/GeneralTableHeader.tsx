@@ -8,10 +8,11 @@ import {
   TableSortLabel,
 } from "@mui/material";
 import { useGeneralTableContext } from "../../context/GeneralTableContext/GeneralTableContextProvider";
-import { visuallyHidden } from '@mui/utils';
+import { visuallyHidden } from "@mui/utils";
 
 const GeneralTableHeader = () => {
-  const { headers, orderBy, order, setOrder, setOrderBy } = useGeneralTableContext();
+  const { headers, orderBy, order, setOrder, setOrderBy, tableActions } =
+    useGeneralTableContext();
 
   return (
     <TableHead>
@@ -39,6 +40,8 @@ const GeneralTableHeader = () => {
             </TableSortLabel>
           </TableCell>
         ))}
+
+        {tableActions && <TableCell />}
       </TableRow>
     </TableHead>
   );
