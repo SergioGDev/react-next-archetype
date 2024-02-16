@@ -2,7 +2,7 @@ import { CustomError, GroupEntity } from "../../domain";
 
 export class GroupMapper {
   static groupEntityFromObject(object: { [key: string]: any }) {
-    const { id, _id, name, description, creatorId, status, creationDate } =
+    const { id, _id, name, description, creatorId, userList, status, creationDate } =
       object;
 
     if (!_id || !id) throw CustomError.badRequest("Missing id");
@@ -15,7 +15,8 @@ export class GroupMapper {
       description,
       creatorId,
       creationDate,
-      status
+      status,
+      userList
     );
   }
 }

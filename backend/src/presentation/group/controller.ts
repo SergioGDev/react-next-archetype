@@ -4,8 +4,10 @@ import { CustomError } from "../../domain";
 import {
   RegisterGroupDto,
   GetGroupListDto,
+  GetGroupDataDto,
 } from "../../domain/entities/dtos/group";
 import { GetGroupList, RegisterGroup } from "../../domain/use-cases/group";
+import { GetGroupData } from "../../domain/use-cases/group/get-group-data-use-case";
 
 export class GroupController {
   constructor(private readonly groupRepository: GroupRepository) {}
@@ -37,6 +39,17 @@ export class GroupController {
 
     new GetGroupList(this.groupRepository)
       .execute(getGroupListDto)
+      .then((data) => res.json(data))
+      .catch((error) => this.handleError(error, res));
+  };
+
+  
+  // GET GROUP DATA
+  getGroupData = (req: Request, res: Response) => {
+    const getGroupDataDto = GetGroupDataDto.create(req.params);
+
+    new GetGroupData(this.groupRepository)
+      .execute(getGroupDataDto!)
       .then((data) => res.json(data))
       .catch((error) => this.handleError(error, res));
   };

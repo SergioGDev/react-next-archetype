@@ -1,3 +1,5 @@
+import { UserEntity } from "./user.entity";
+
 export class GroupEntity {
   
   constructor(
@@ -7,6 +9,7 @@ export class GroupEntity {
     public creatorId: string,
     public creationDate: Date,
     public status: string,
+    public userList?: UserEntity[]
   ) { }
 
 }

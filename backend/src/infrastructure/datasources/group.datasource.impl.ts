@@ -2,6 +2,7 @@ import { UserModel } from "../../data/mongodb";
 import { GroupModel } from "../../data/mongodb/models/group.model";
 import { CustomError } from "../../domain";
 import { GroupDatasource } from "../../domain/datasources/group.datasource";
+import { GetGroupDataDto } from "../../domain/entities/dtos/group";
 import { GetGroupListDto } from "../../domain/entities/dtos/group/get-group-list.dto";
 import { RegisterGroupDto } from "../../domain/entities/dtos/group/register-group.dto";
 import { GroupEntity } from "../../domain/entities/group.entity";
@@ -50,7 +51,7 @@ export class GroupDatasourceImpl implements GroupDatasource {
       Object.keys(getGroupListDto).forEach((key: string) => {
         if (getGroupListDto[key as keyof GetGroupListDto] !== undefined) {
           const value = getGroupListDto[key as keyof GetGroupListDto] as string;
-          whereClauses[key] = new RegExp(value, 'i');
+          whereClauses[key] = new RegExp(value, "i");
         }
       });
       const groupList = await GroupModel.find(whereClauses);
@@ -60,6 +61,20 @@ export class GroupDatasourceImpl implements GroupDatasource {
       return groupList.map((groupEntity) =>
         GroupMapper.groupEntityFromObject(groupEntity)
       );
+    } catch (error) {
+      if (error instanceof CustomError) {
+        throw error;
+      }
+      throw CustomError.internalServer();
+    }
+  }
+
+  async getGroupData(getGroupDataDto: GetGroupDataDto): Promise<GroupEntity> {
+    try {
+      const group = await GroupModel.findById(getGroupDataDto.id);
+      if (!group) throw CustomError.badRequest('No group found');
+
+      return GroupMapper.groupEntityFromObject(group);
     } catch (error) {
       if (error instanceof CustomError) {
         throw error;
