@@ -29,10 +29,10 @@ const GeneralTableBody = () => {
               return <TableCell key={`${index}-${id}`}>{cellData}</TableCell>;
             })}
             {tableActions && (
-              <TableCell>
+              <TableCell sx={{ width: '1%', whiteSpace: 'nowrap' }}>
                 {tableActions.map(({ Icon, actionType }, index) => (
                   <IconButton key={`${index}_${actionType}`}>
-                    <Icon />
+                    <Icon color="primary" />
                   </IconButton>
                 ))}
               </TableCell>

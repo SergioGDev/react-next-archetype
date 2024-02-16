@@ -1,17 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-import { Box, Button, Typography } from "@mui/material";
-import { Add } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
-import { useGetData } from "@/hooks/useGetData";
 import Spinner from "@/components/common/Spinner";
-import { useAuthContext } from "@/context/AuthContext";
 import GeneralTable from "@/components/common/GeneralTable/GeneralTable";
+import { useGetData } from "@/hooks/useGetData";
+import { useAuthContext } from "@/context/AuthContext";
 import { getRowsGroupsData } from "./groupsPage.helpers";
 import { GroupListPageApiRespData } from "@/types/group.types";
 import { headersGroupDataTable } from "./groupsPage.consts";
 
+import { Box, Button, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
+import { useGroupsPage } from "./hooks/useGroupsPage";
+
 const GroupsPage = () => {
+  const { actionsGroupTable } = useGroupsPage();
   const router = useRouter();
   const { userData } = useAuthContext();
 
@@ -25,8 +28,7 @@ const GroupsPage = () => {
 
   const { data, isLoading } = useGetData<GroupListPageApiRespData>(
     "/api/group/groups",
-    getQueryParams(),
-    true
+    getQueryParams()
   );
 
   if (isLoading) return <Spinner />;
@@ -53,8 +55,9 @@ const GroupsPage = () => {
       </Box>
 
       <GeneralTable
-        tableRows={getRowsGroupsData(data!.groups)}
+        tableRows={getRowsGroupsData(data?.groups)}
         tableHeaders={headersGroupDataTable}
+        tableActions={actionsGroupTable}
       />
 
     </Box>

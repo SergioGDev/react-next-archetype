@@ -2,7 +2,7 @@ import { GeneralTableRowType } from "@/components/common/GeneralTable/generalTab
 import { GroupData } from "@/types/group.types";
 
 export const getRowsGroupsData = (
-  groupDataList: GroupData[]
+  groupDataList: GroupData[] = []
 ): GeneralTableRowType[] => {
   return groupDataList.map<GeneralTableRowType>(
     ({ name, description, creatorId }) => ({

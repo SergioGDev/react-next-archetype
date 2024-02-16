@@ -31,7 +31,7 @@ export type Order = "asc" | "desc";
 export type GeneralTableActionType = {
   Icon: SvgIconComponent;
   actionType: GeneralTableAction;
-  codeAction?: () => void;
+  codeAction?: (...atr: any) => void;
   showCondition?: boolean;
 }
 
