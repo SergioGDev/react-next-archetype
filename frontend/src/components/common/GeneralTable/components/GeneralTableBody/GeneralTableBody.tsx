@@ -4,10 +4,12 @@ import { sortRowsById } from "../../generalTable.helper";
 import { IconButton, TableBody, TableCell, TableRow } from "@mui/material";
 import { useGeneralTableContext } from "../../context/GeneralTableContext/GeneralTableContextProvider";
 import { sortCellsByPosition } from "./generalTableBody.helper";
+import { useGeneralTableBody } from "./hooks/useGeneralTableBody";
 
 const GeneralTableBody = () => {
   const { order, orderBy, page, rowsPerPage, rows, colspan, tableActions } =
     useGeneralTableContext();
+  const { onClickGeneralTableAction } = useGeneralTableBody();
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -23,15 +25,26 @@ const GeneralTableBody = () => {
   return (
     <TableBody>
       {visibleRows.map(({ tableRow }, index) => {
+        const rowId: string | undefined = tableRow.find(
+          (row) => row.id === "id"
+        )?.cellData as string;
+
         return (
           <TableRow hover key={`row-${index}`}>
             {sortCellsByPosition(tableRow).map(({ id, cellData }) => {
               return <TableCell key={`${index}-${id}`}>{cellData}</TableCell>;
             })}
-            {tableActions && (
-              <TableCell sx={{ width: '1%', whiteSpace: 'nowrap' }}>
-                {tableActions.map(({ Icon, actionType }, index) => (
-                  <IconButton key={`${index}_${actionType}`}>
+            {tableActions && rowId && (
+              <TableCell sx={{ width: "1%", whiteSpace: "nowrap" }}>
+                {tableActions.map(({ Icon, actionType, actionData }, index) => (
+                  <IconButton
+                    key={`${index}_${actionType}`}
+                    onClick={() =>
+                      onClickGeneralTableAction(actionType, actionData, {
+                        id: rowId,
+                      })
+                    }
+                  >
                     <Icon color="primary" />
                   </IconButton>
                 ))}

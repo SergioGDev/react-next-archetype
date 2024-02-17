@@ -5,11 +5,12 @@ export const getRowsGroupsData = (
   groupDataList: GroupData[] = []
 ): GeneralTableRowType[] => {
   return groupDataList.map<GeneralTableRowType>(
-    ({ name, description, creatorId }) => ({
+    ({ id, name, description, creatorId }) => ({
       tableRow: [
         { id: "name", cellData: name, position: 0 },
         { id: "creatorId", cellData: creatorId, position: 1 },
         { id: "description", cellData: description, position: 2 },
+        { id: "id", cellData: id, position: -1, hiddenData: false }
       ],
     })
   );

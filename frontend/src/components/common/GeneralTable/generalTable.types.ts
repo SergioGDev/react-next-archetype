@@ -21,8 +21,9 @@ export type GeneralTableRowType = {
 
 export type GeneralTableCellType = {
   id: string;
-  cellData: string | number;
+  cellData: string | number | undefined;
   position: number;
+  hiddenData?: boolean;
 };
 
 export type Order = "asc" | "desc";
@@ -32,9 +33,8 @@ export type GeneralTableActionType = {
   Icon: SvgIconComponent;
   actionType: GeneralTableAction;
   codeAction?: (...atr: any) => void;
+  actionData?: { [key: string]: any };
   showCondition?: boolean;
-}
+};
 
-export type GeneralTableAction =
-  | "GO_TO_PAGE_ACTION"
-  | "DELETE_ACTION";
+export type GeneralTableAction = "GO_TO_PAGE_ACTION" | "DELETE_ACTION";
