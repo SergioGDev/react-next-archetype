@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Sidebar.module.scss";
 
-import { SidebarLinks } from "./sidebar.helper";
+import { SidebarLinks, isSectionActive } from "./sidebar.helper";
 import { SidebarSectionItem, SidebarSectionType } from "./sidebar.types";
 import { useSidebarContext } from "@/context/SidebarContext/SidebarContextProvider";
 import { useAuthContext } from "@/context/AuthContext";
@@ -35,7 +35,7 @@ export const Sidebar = () => {
                       key={linkData.name}
                       href={linkData.path}
                       className={`${styles.linkContainer} ${
-                        pathname === linkData.path ? styles.active : ""
+                        isSectionActive(pathname, linkData.path) ? styles.active : ""
                       }`}
                     >
                       <div className={styles.linkIcon}>

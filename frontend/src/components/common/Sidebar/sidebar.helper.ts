@@ -18,8 +18,8 @@ export const SidebarLinks: SidebarSectionType[] = [
       {
         name: "Groups",
         icon: Group,
-        path: "/dashboard/groups"
-      }
+        path: "/dashboard/groups",
+      },
     ],
   },
   {
@@ -29,7 +29,16 @@ export const SidebarLinks: SidebarSectionType[] = [
         name: "Settings",
         icon: Settings,
         path: "/dashboard/settings",
-      }
+      },
     ],
   },
 ];
+
+export const isSectionActive = (
+  pathname: string | null,
+  sectionName: string
+) => {
+  return pathname
+    ? pathname.split("/")[2] === sectionName.split("/")[2]
+    : false;
+};
