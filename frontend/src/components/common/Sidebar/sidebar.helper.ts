@@ -1,5 +1,6 @@
 import { Group, Home, List, Settings } from "lucide-react";
 import { SidebarSectionType } from "./sidebar.types";
+import { Role } from "@/types/roles.types";
 
 export const SidebarLinks: SidebarSectionType[] = [
   {
@@ -14,6 +15,7 @@ export const SidebarLinks: SidebarSectionType[] = [
         name: "User List",
         icon: List,
         path: "/dashboard/user-list",
+        roles: ['ADMIN_ROLE', 'COORDINATOR_ROLE']
       },
       {
         name: "Groups",
@@ -42,3 +44,9 @@ export const isSectionActive = (
     ? pathname.split("/")[2] === sectionName.split("/")[2]
     : false;
 };
+
+export const showSection = (actualRole?: Role, roles?: Role[]): boolean => {
+  if (!roles) return true;
+  if (!actualRole) return false;
+  return roles.includes(actualRole);
+}

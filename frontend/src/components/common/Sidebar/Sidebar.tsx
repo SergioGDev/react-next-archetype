@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Sidebar.module.scss";
 
-import { SidebarLinks, isSectionActive } from "./sidebar.helper";
+import { SidebarLinks, isSectionActive, showSection } from "./sidebar.helper";
 import { SidebarSectionItem, SidebarSectionType } from "./sidebar.types";
 import { useSidebarContext } from "@/context/SidebarContext/SidebarContextProvider";
 import { useAuthContext } from "@/context/AuthContext";
@@ -30,30 +30,41 @@ export const Sidebar = () => {
               >
                 <div className={styles.sectionTitle}>{title}</div>
                 {vLinks.map((linkData: SidebarSectionItem) => {
-                  return linkData.path ? (
-                    <Link
-                      key={linkData.name}
-                      href={linkData.path}
-                      className={`${styles.linkContainer} ${
-                        isSectionActive(pathname, linkData.path) ? styles.active : ""
-                      }`}
-                    >
-                      <div className={styles.linkIcon}>
-                        <linkData.icon />
-                      </div>
-                      <div className={styles.linkTitle}>{linkData.name}</div>
-                    </Link>
-                  ) : (
-                    <button
-                      className={styles.linkContainer}
-                      key={linkData.name}
-                    >
-                      <div className={styles.linkIcon}>
-                        <linkData.icon />
-                      </div>
-                      <div className={styles.linkTitle}>{linkData.name}</div>
-                    </button>
-                  );
+                  if (linkData.path) {
+                    if (showSection(userData?.role, linkData.roles)) {
+                      return (
+                        <Link
+                          key={linkData.name}
+                          href={linkData.path}
+                          className={`${styles.linkContainer} ${
+                            isSectionActive(pathname, linkData.path) &&
+                            styles.active
+                          }`}
+                        >
+                          <div className={styles.linkIcon}>
+                            <linkData.icon />
+                          </div>
+                          <div className={styles.linkTitle}>
+                            {linkData.name}
+                          </div>
+                        </Link>
+                      );
+                    } else {
+                      return <span key={linkData.name}></span>;
+                    }
+                  } else {
+                    return (
+                      <button
+                        className={styles.linkContainer}
+                        key={linkData.name}
+                      >
+                        <div className={styles.linkIcon}>
+                          <linkData.icon />
+                        </div>
+                        <div className={styles.linkTitle}>{linkData.name}</div>
+                      </button>
+                    );
+                  }
                 })}
               </div>
             );

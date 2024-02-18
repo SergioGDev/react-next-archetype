@@ -1,3 +1,4 @@
+import { Role } from '@/types/roles.types';
 import { LucideIcon } from 'lucide-react';
 
 export type SidebarSectionType = {
@@ -10,4 +11,5 @@ export type SidebarSectionItem = {
     icon: LucideIcon;
     path?: string;
     subItems?: SidebarSectionItem[];
+    roles?: Role[]
 };
