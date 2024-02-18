@@ -15,7 +15,7 @@ export const SidebarLinks: SidebarSectionType[] = [
         name: "User List",
         icon: List,
         path: "/dashboard/user-list",
-        roles: ['ADMIN_ROLE', 'COORDINATOR_ROLE']
+        roles: ['ADMIN_ROLE']
       },
       {
         name: "Groups",

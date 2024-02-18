@@ -26,7 +26,7 @@ export function middleware(request: NextRequest) {
     if (userData) {
       const userRole: Role = (JSON.parse(userData) as UserData).role;
       
-      if (userRole === 'USER_ROLE') {
+      if (userRole !== 'ADMIN_ROLE') {
         const response = NextResponse.redirect(new URL("/dashboard/home", request.url));
         return response;
       }
