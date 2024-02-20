@@ -6,6 +6,7 @@ import { GetGroupDataDto } from "../../domain/entities/dtos/group";
 import { GetGroupListDto } from "../../domain/entities/dtos/group/get-group-list.dto";
 import { RegisterGroupDto } from "../../domain/entities/dtos/group/register-group.dto";
 import { GroupEntity } from "../../domain/entities/group.entity";
+import { getWhereClauseWithCoincidences } from "../../helpers/getWhereClause";
 import { GroupMapper } from "../mappers/group.mapper";
 
 export class GroupDatasourceImpl implements GroupDatasource {
@@ -47,13 +48,7 @@ export class GroupDatasourceImpl implements GroupDatasource {
 
   async getGroupList(getGroupListDto: GetGroupListDto): Promise<GroupEntity[]> {
     try {
-      const whereClauses: { [key: string]: any } = {};
-      Object.keys(getGroupListDto).forEach((key: string) => {
-        if (getGroupListDto[key as keyof GetGroupListDto] !== undefined) {
-          const value = getGroupListDto[key as keyof GetGroupListDto] as string;
-          whereClauses[key] = new RegExp(value, "i");
-        }
-      });
+      const whereClauses: { [key: string]: any } = getWhereClauseWithCoincidences(getGroupListDto);
       const groupList = await GroupModel.find(whereClauses);
 
       if (!groupList) throw CustomError.internalServer();

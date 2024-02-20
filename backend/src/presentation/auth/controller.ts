@@ -1,10 +1,16 @@
 import { Request, Response } from "express";
 import { CustomError } from "../../domain";
 import { AuthRepository } from "../../domain/repositories/auth.repository";
-import { LoginUserDto, RegisterUserDto, RenewTokenDto } from "../../domain/entities/dtos/auth";
+import {
+  LoginUserDto,
+  RegisterUserDto,
+  RenewTokenDto,
+  UpdateUserDataDto,
+} from "../../domain/entities/dtos/auth";
 import { GetUserList } from "../../domain/use-cases/auth/get-user-list.use-case";
 import { RenewToken } from "../../domain/use-cases/auth/renew-token.use-case";
 import { LoginUser, RegisterUser } from "../../domain/use-cases/auth";
+import { UpdateUserData } from "../../domain/use-cases/auth/update-user-data.use-case";
 
 export class AuthController {
   // Inyección de Dependencias
@@ -51,6 +57,18 @@ export class AuthController {
 
     new RenewToken(this.authRepository)
       .execute(renewTokenDto!)
+      .then((data) => res.json(data))
+      .catch((error) => this.handleError(error, res));
+  };
+
+  // Update User Data
+  updateUserData = (req: Request, res: Response) => {
+    const [error, updateUserDataDto] = UpdateUserDataDto.create(req.body);
+
+    if (error) return res.status(400).json({ error });
+
+    new UpdateUserData(this.authRepository)
+      .execute(updateUserDataDto!)
       .then((data) => res.json(data))
       .catch((error) => this.handleError(error, res));
   };

@@ -1,4 +1,5 @@
 import { LoginUserDto, RegisterUserDto, RenewTokenDto } from "../entities/dtos/auth";
+import { UpdateUserDataDto } from "../entities/dtos/auth/update-user-data.dto";
 import { UserEntity } from "../entities/user.entity";
 
 /*
@@ -10,6 +11,7 @@ export abstract class AuthRepository {
     abstract login(loginUserDto: LoginUserDto): Promise<UserEntity>;
     abstract register(registerUserDto: RegisterUserDto): Promise<UserEntity>;
     abstract renewToken(renewTokenDto: RenewTokenDto): Promise<UserEntity>;
+    abstract updateUserData(updateUserDataDto: UpdateUserDataDto): Promise<UserEntity>;
     abstract getUserList(): Promise<UserEntity[]>;
 
 }
