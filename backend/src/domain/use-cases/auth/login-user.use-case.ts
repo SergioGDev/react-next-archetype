@@ -6,6 +6,7 @@ import { AuthRepository } from "../../repositories/auth.repository";
 interface UserToken {
   token: string;
   user: {
+    id: string;
     name: string;
     surname: string;
     email: string;
@@ -44,7 +45,7 @@ export class LoginUser implements LoginUserUseCase {
 
     return {
       token: token,
-      user: { name, surname, email, role, creationDate, status },
+      user: { id, name, surname, email, role, creationDate, status },
     };
   }
 }
