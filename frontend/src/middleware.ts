@@ -10,7 +10,6 @@ export function middleware(request: NextRequest) {
   const userData = request.cookies.get(USER_DATA)?.value;
   const pathName = request.nextUrl.pathname;
 
-  console.log('-> middleware')
   if (pathName === '/') {
       const response = NextResponse.redirect(new URL("/login", request.url));
       return response;

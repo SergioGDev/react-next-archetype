@@ -1,5 +1,5 @@
 import { AuthContextProvider } from "@/context/AuthContext";
-import { DataContextProvider } from "@/context/DataContext";
+import { DialogContextProvider } from "@/context/DialogContext/DialogContextProvider";
 import RootLayout from "@/layouts/RootLayout";
 
 export const metadata = {
@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <RootLayout>
       <AuthContextProvider>
-        <DataContextProvider>{children}</DataContextProvider>
+        <DialogContextProvider>{children}</DialogContextProvider>
       </AuthContextProvider>
     </RootLayout>
   );

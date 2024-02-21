@@ -29,17 +29,37 @@ export const Sidebar = () => {
                 key={`${index}-${title}`}
               >
                 <div className={styles.sectionTitle}>{title}</div>
-                {vLinks.map((linkData: SidebarSectionItem) => {
-                  if (linkData.path) {
-                    if (showSection(userData?.role, linkData.roles)) {
+                {vLinks
+                  .filter(
+                    ({ path, roles }: SidebarSectionItem) =>
+                      (path && showSection(userData?.role, roles)) || !path
+                  )
+                  .map((linkData: SidebarSectionItem) => {
+                    if (linkData.path) {
+                      if (showSection(userData?.role, linkData.roles)) {
+                        return (
+                          <Link
+                            key={linkData.name}
+                            href={linkData.path}
+                            className={`${styles.linkContainer} ${
+                              isSectionActive(pathname, linkData.path) &&
+                              styles.active
+                            }`}
+                          >
+                            <div className={styles.linkIcon}>
+                              <linkData.icon />
+                            </div>
+                            <div className={styles.linkTitle}>
+                              {linkData.name}
+                            </div>
+                          </Link>
+                        );
+                      }
+                    } else {
                       return (
-                        <Link
+                        <button
+                          className={styles.linkContainer}
                           key={linkData.name}
-                          href={linkData.path}
-                          className={`${styles.linkContainer} ${
-                            isSectionActive(pathname, linkData.path) &&
-                            styles.active
-                          }`}
                         >
                           <div className={styles.linkIcon}>
                             <linkData.icon />
@@ -47,25 +67,10 @@ export const Sidebar = () => {
                           <div className={styles.linkTitle}>
                             {linkData.name}
                           </div>
-                        </Link>
+                        </button>
                       );
-                    } else {
-                      return <span key={linkData.name}></span>;
                     }
-                  } else {
-                    return (
-                      <button
-                        className={styles.linkContainer}
-                        key={linkData.name}
-                      >
-                        <div className={styles.linkIcon}>
-                          <linkData.icon />
-                        </div>
-                        <div className={styles.linkTitle}>{linkData.name}</div>
-                      </button>
-                    );
-                  }
-                })}
+                  })}
               </div>
             );
           }
