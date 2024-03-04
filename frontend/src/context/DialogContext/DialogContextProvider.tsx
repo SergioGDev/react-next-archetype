@@ -1,9 +1,11 @@
+"use client";
 import React, { PropsWithChildren, useContext, useReducer } from "react";
 
 import { DialogContextReducer } from "./DialogContextReducer";
 import { DialogContext } from "./DialogContext";
 import { initialDialogContextState } from "./dialogContext.consts";
 import { DialogContextProps, DialogData } from "./dialogContext.types";
+import ConfirmDialog from "./components/ConfirmDialog/ConfirmDialog";
 
 export const DialogContextProvider = ({ children }: PropsWithChildren) => {
   const [dialogData, dispatch] = useReducer(
@@ -27,6 +29,7 @@ export const DialogContextProvider = ({ children }: PropsWithChildren) => {
   return (
     <DialogContext.Provider value={providerObject}>
       {children}
+      <ConfirmDialog />
     </DialogContext.Provider>
   );
 };
