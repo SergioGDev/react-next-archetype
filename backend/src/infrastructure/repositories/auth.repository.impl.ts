@@ -28,4 +28,8 @@ export class AuthRepositoryImpl implements AuthRepository {
         return this.authDatasource.renewToken(renewTokenDto);
     }
 
+    getUsersFromGroup(idGroup: string): Promise<UserEntity[]> {
+        return this.authDatasource.getUsersFromGroup(idGroup);
+    }
+
 }

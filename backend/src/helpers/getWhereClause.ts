@@ -7,11 +7,13 @@ export const getWhereClause = (
   Object.keys(obj)
     .filter((key: string) => !exludedKeys.includes(key))
     .forEach((key: string) => {
-      if (obj[key] !== undefined) {
+      if (obj[key] !== undefined && obj[key] !== null) {
         whereClause[key] = obj[key];
+      } else if (obj[key] === null) {
+        whereClause[key] = undefined;
       }
     });
-
+  
   return whereClause;
 };
 

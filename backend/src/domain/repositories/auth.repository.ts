@@ -12,6 +12,7 @@ export abstract class AuthRepository {
     abstract register(registerUserDto: RegisterUserDto): Promise<UserEntity>;
     abstract renewToken(renewTokenDto: RenewTokenDto): Promise<UserEntity>;
     abstract updateUserData(updateUserDataDto: UpdateUserDataDto): Promise<UserEntity>;
+    abstract getUsersFromGroup(idGroup: string): Promise<UserEntity[]>;
     abstract getUserList(): Promise<UserEntity[]>;
 
 }

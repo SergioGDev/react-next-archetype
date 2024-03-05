@@ -8,7 +8,6 @@ export class UserMapper {
       name,
       surname,
       email,
-      password,
       role,
       status,
       creationDate,
@@ -20,7 +19,6 @@ export class UserMapper {
     if (!name) throw CustomError.badRequest("Missing name");
     if (!surname) throw CustomError.badRequest("Missing surname");
     if (!email) throw CustomError.badRequest("Missing email");
-    if (!password && passwordRequired) throw CustomError.badRequest("Missing password");
     if (!role) throw CustomError.badRequest("Missing role");
 
     return new UserEntity(
@@ -31,9 +29,8 @@ export class UserMapper {
       role,
       creationDate,
       status,
-      password,
       idGroup,
-      img
+      img,
     );
   }
 }

@@ -8,9 +8,13 @@ import {
 } from "../../domain/entities/dtos/group";
 import { GetGroupList, RegisterGroup } from "../../domain/use-cases/group";
 import { GetGroupData } from "../../domain/use-cases/group/get-group-data-use-case";
+import { AuthRepository } from "../../domain/repositories/auth.repository";
 
 export class GroupController {
-  constructor(private readonly groupRepository: GroupRepository) {}
+  constructor(
+    private readonly groupRepository: GroupRepository,
+    private readonly authRepository: AuthRepository
+  ) {}
 
   private handleError = (error: unknown, res: Response) => {
     if (error instanceof CustomError) {
@@ -43,12 +47,11 @@ export class GroupController {
       .catch((error) => this.handleError(error, res));
   };
 
-  
   // GET GROUP DATA
   getGroupData = (req: Request, res: Response) => {
     const getGroupDataDto = GetGroupDataDto.create(req.params);
 
-    new GetGroupData(this.groupRepository)
+    new GetGroupData(this.groupRepository, this.authRepository)
       .execute(getGroupDataDto!)
       .then((data) => res.json(data))
       .catch((error) => this.handleError(error, res));

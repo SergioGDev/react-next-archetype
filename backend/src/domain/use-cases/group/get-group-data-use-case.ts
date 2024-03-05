@@ -1,5 +1,6 @@
 import { GetGroupDataDto } from "../../entities/dtos/group";
 import { UserEntity } from "../../entities/user.entity";
+import { AuthRepository } from "../../repositories/auth.repository";
 import { GroupRepository } from "../../repositories/group.repository";
 
 interface GroupsToken {
@@ -17,13 +18,18 @@ interface GetGroupDataUseCase {
 }
 
 export class GetGroupData implements GetGroupDataUseCase {
-  constructor(private readonly groupRepository: GroupRepository) {}
+  constructor(
+    private readonly groupRepository: GroupRepository,
+    private readonly authRepository: AuthRepository
+  ) {}
 
-  async execute(GetGroupDataDto: GetGroupDataDto): Promise<GroupsToken> {
+  async execute(getGroupDataDto: GetGroupDataDto): Promise<GroupsToken> {
     const groupListData = await this.groupRepository.getGroupData(
-      GetGroupDataDto
+      getGroupDataDto
     );
 
-    return { ...groupListData };
+    const userList = await this.authRepository.getUsersFromGroup(getGroupDataDto.id);
+
+    return { ...groupListData, userList };
   }
 }

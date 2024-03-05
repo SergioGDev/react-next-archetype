@@ -132,6 +132,22 @@ export class AuthDatasourceImpl implements AuthDatasource {
     }
   }
 
+  async getUsersFromGroup(idGroup: string): Promise<UserEntity[]> {
+    try {
+      const userList = await UserModel.find({ idGroup });
+      if (!userList) throw CustomError.internalServer();
+
+      return userList.map((userObj) =>
+        UserMapper.userEntityFromObject(userObj)
+      );
+    } catch (error) {
+      if (error instanceof CustomError) {
+        throw error;
+      }
+      throw CustomError.internalServer();
+    }   
+  }
+
   async renewToken(renewTokenDto: RenewTokenDto): Promise<UserEntity> {
     const { token } = renewTokenDto;
 
