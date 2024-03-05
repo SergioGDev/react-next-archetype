@@ -6,6 +6,7 @@ import { AuthRepository } from "../../repositories/auth.repository";
 interface UserToken {
   token: string;
   user: {
+    id: string;
     name: string;
     surname: string;
     email: string;
@@ -34,6 +35,7 @@ export class RegisterUser implements RegisterUserUseCase {
     // Crear el usuario
     const user = await this.authRepository.register(registerUserDto);
     const {
+      id,
       name,
       surname,
       email,
@@ -44,13 +46,14 @@ export class RegisterUser implements RegisterUserUseCase {
       img,
     } = user;
     // Token
-    const token = await this.signToken({ id: user.id }, "2h");
+    const token = await this.signToken({ id }, "2h");
 
     if (!token) throw CustomError.internalServer("Error generating token");
 
     return {
       token: token,
       user: {
+        id,
         name,
         surname,
         email,

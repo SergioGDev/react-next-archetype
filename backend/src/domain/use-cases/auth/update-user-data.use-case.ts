@@ -5,6 +5,7 @@ import { AuthRepository } from "../../repositories/auth.repository";
 
 interface UserData {
   userData: {
+    id: string;
     name: string;
     surname: string;
     email: string;
@@ -30,6 +31,7 @@ export class UpdateUserData implements UpdateUserDataUseCase {
     // Actualiza los datos del usuario
     const user = await this.authRepository.updateUserData(updateUserDataDto);
     const {
+      id,
       name,
       surname,
       email,
@@ -42,6 +44,7 @@ export class UpdateUserData implements UpdateUserDataUseCase {
 
     return {
       userData: {
+        id,
         name,
         surname,
         email,

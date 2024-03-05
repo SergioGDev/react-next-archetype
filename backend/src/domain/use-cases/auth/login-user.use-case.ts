@@ -33,11 +33,21 @@ export class LoginUser implements LoginUserUseCase {
   async execute(loginUserDto: LoginUserDto): Promise<UserToken> {
     // Buscar el usuario
     const user = await this.authRepository.login(loginUserDto);
-    const { id, name, surname, email, role, creationDate, status } = user;
+    const {
+      id,
+      name,
+      surname,
+      email,
+      role,
+      creationDate,
+      status,
+      idGroup,
+      img,
+    } = user;
 
     // Obtener el token
     const token = await this.signToken(
-      { id, name, surname, email, role, creationDate, status },
+      { id, name, surname, email, role, idGroup, creationDate, status },
       "2h"
     );
 
@@ -45,7 +55,17 @@ export class LoginUser implements LoginUserUseCase {
 
     return {
       token: token,
-      user: { id, name, surname, email, role, creationDate, status },
+      user: {
+        id,
+        name,
+        surname,
+        email,
+        role,
+        creationDate,
+        status,
+        idGroup,
+        img,
+      },
     };
   }
 }

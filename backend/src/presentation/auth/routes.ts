@@ -16,7 +16,7 @@ export class AuthRoutes {
     router.post("/login", controller.loginUser);
     router.post("/register", controller.registerUser);
     router.post("/renew-token", controller.renewToken);
-    router.post("/update-user-data", controller.updateUserData);
+    router.post("/update-user-data", [AuthMiddleware.validateJwt], controller.updateUserData);
 
     router.get("/user-list", [AuthMiddleware.validateJwt], controller.getUsers);
 
