@@ -1,5 +1,6 @@
 import { AuthContextProvider } from "@/context/AuthContext";
 import { DialogContextProvider } from "@/context/DialogContext/DialogContextProvider";
+import { SnackbarContextProvider } from "@/context/SnackbarContext/SnackbarContextProvider";
 import RootLayout from "@/layouts/RootLayout";
 
 export const metadata = {
@@ -11,7 +12,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <RootLayout>
       <AuthContextProvider>
-        <DialogContextProvider>{children}</DialogContextProvider>
+        <SnackbarContextProvider>
+          <DialogContextProvider>{children}</DialogContextProvider>
+        </SnackbarContextProvider>
       </AuthContextProvider>
     </RootLayout>
   );

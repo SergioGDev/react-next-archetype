@@ -6,7 +6,8 @@ type AuthAction =
   | { type: "okLogin"; payload: UserData }
   | { type: "errorLoging"; payload: AuthError }
   | { type: "startRegisterUser" }
-  | { type: "logout" };
+  | { type: "logout" }
+  | { type: "setUserData"; payload: UserData };
 
 const AuthContextReducer = (
   state: AuthContextType,
@@ -17,7 +18,7 @@ const AuthContextReducer = (
       return { isLoading: true, errorLoading: undefined, userData: undefined };
 
     case "setUserDataFromCookie":
-      return { ...state, userData: action.payload }
+      return { ...state, userData: action.payload };
 
     case "okLogin":
       return {
@@ -42,6 +43,13 @@ const AuthContextReducer = (
 
     case "logout":
       return { userData: undefined, errorLoading: undefined, isLoading: false };
+
+    case "setUserData":
+      return {
+        userData: action.payload,
+        errorLoading: undefined,
+        isLoading: false,
+      };
 
     default:
       return state;

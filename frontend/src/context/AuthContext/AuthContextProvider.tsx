@@ -22,8 +22,6 @@ import { usePostData } from "@/hooks/usePostData";
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
-  const { data: dataRenewToken, postData: postRenewToken } =
-    usePostData("/api/auth/renew");
   const [authContextData, dispatch] = useReducer(
     AuthContextReducer,
     initialAuthContextState
@@ -112,12 +110,16 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     router.replace("/login");
   };
 
+  const setUserData = (userData: UserData) =>
+    dispatch({ type: "setUserData", payload: userData });
+
   const providerValues: AuthContextProps = {
     ...authContextData,
     login,
     logout,
     registerUser,
     renewToken,
+    setUserData,
   };
 
   return (

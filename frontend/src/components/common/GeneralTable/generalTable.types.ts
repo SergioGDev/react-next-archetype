@@ -35,7 +35,11 @@ export type GeneralTableActionType = {
   actionType: GeneralTableAction;
   codeAction?: (...atr: any) => void;
   actionData?: { [key: string]: any };
-  showCondition?: boolean;
 };
 
-export type GeneralTableAction = "GO_TO_PAGE_ACTION" | "POST_ACTION" | "DELETE_ACTION";
+export type GeneralTableAction =
+  | "GO_TO_PAGE_ACTION"
+  | "POST_WITH_ID_ROW_ACTION"
+  | "POST_WITHOUT_ID_ROW_ACTION"
+  | "ADD_USER_TO_GROUP_ACTION"
+  | "DELETE_ACTION";
