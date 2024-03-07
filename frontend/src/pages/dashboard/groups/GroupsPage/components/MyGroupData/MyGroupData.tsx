@@ -1,18 +1,13 @@
 import React from "react";
 
-import Spinner from "../../../../../../components/common/Spinner";
-import { useAuthContext } from "@/context/AuthContext";
-import { useGetData } from "@/hooks/useGetData";
-import { GroupData } from "@/types/group.types";
+import Spinner from "@/components/common/Spinner";
 import { formatDate } from "@/helpers/formatDate";
 
-import { Card, Typography, Box } from "@mui/material";
+import { Card, Typography, Box, Button } from "@mui/material";
+import { useMyGroupData } from "./hooks/useMyGroupData";
 
 const MyGroupData = () => {
-  const { userData } = useAuthContext();
-  const { data, isLoading } = useGetData<GroupData>(
-    userData?.idGroup ? `/api/group/groups/${userData.idGroup}` : ""
-  );
+  const { data, isLoading, onClickLeaveGroup } = useMyGroupData();
 
   if (isLoading) return <Spinner />;
   if (!data)
@@ -34,6 +29,18 @@ const MyGroupData = () => {
         </Typography>
         <Typography variant="body1">{data.description}</Typography>
       </Card>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-end",
+          flexDirection: "column",
+        }}
+      >
+        <Button color="error" onClick={onClickLeaveGroup}>
+          Leave group
+        </Button>
+      </Box>
     </Box>
   );
 };

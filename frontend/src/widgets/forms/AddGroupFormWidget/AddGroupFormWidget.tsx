@@ -13,9 +13,12 @@ import {
   minNameLength,
 } from "./addGroupFormWidget.consts";
 import { useAddGroupFormWidget } from "./hooks/useAddGroupFormWidget";
+import { useParams } from "next/navigation";
 
 const AddGroupFormWidget = () => {
+  const { id } = useParams<{ id: string }>()!;
   const {
+    isLoadingGroup,
     userData,
     methods,
     handleSubmit,
@@ -25,7 +28,7 @@ const AddGroupFormWidget = () => {
     isValid,
   } = useAddGroupFormWidget();
 
-  if (!userData) return <Spinner />;
+  if (!userData || isLoadingGroup) return <Spinner />;
 
   return (
     <>
@@ -79,7 +82,7 @@ const AddGroupFormWidget = () => {
               disabled={!isValid || isLoading}
               type="submit"
             >
-              {isLoading ? "Saving..." : "Add new group"}
+              {isLoading ? "Saving..." : id ? "Edit group" : "Add group"}
             </Button>
           </Box>
         </form>

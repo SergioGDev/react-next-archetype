@@ -18,7 +18,6 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { RespError } from "@/types/axios.types";
-import { usePostData } from "@/hooks/usePostData";
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
@@ -43,7 +42,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
   const renewToken = () => {
     axios
-      .post("/api/auth/renew", {
+      .post("/api/auth/renew-token", {
         token: Cookies.get(AUTH_TOKEN),
       })
       .then((resp: ApiResp) => {
@@ -110,8 +109,11 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     router.replace("/login");
   };
 
-  const setUserData = (userData: UserData) =>
+  const setUserData = (userData: UserData) => {
+    console.log(userData);
+    Cookies.set(USER_DATA, JSON.stringify(userData));
     dispatch({ type: "setUserData", payload: userData });
+  };
 
   const providerValues: AuthContextProps = {
     ...authContextData,

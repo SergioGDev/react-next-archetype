@@ -3,12 +3,19 @@ import { AddGroupForm } from "../addGroupFormWidget.types";
 import { useAuthContext } from "@/context/AuthContext";
 import { usePostData } from "@/hooks/usePostData";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useGetData } from "@/hooks/useGetData";
+import { GroupData } from "@/types/group.types";
 
 export const useAddGroupFormWidget = () => {
+  const { id } = useParams<{ id: string }>()!;
   const methods = useForm<AddGroupForm>();
   const router = useRouter();
   const { userData } = useAuthContext();
+
+  const { data: groupData, isLoading: isLoadingGroup } = useGetData<GroupData>(
+    id ? `/api/group/groups/${id}` : ""
+  );
 
   const { postData, data, isLoading } = usePostData(
     "/api/group/register-group"
@@ -18,8 +25,19 @@ export const useAddGroupFormWidget = () => {
     watch,
     setValue,
     handleSubmit,
+    reset,
     formState: { isValid, errors },
   } = methods;
+
+  useEffect(() => {
+    if (id && groupData) {
+      reset({
+        name: groupData.name,
+        description: groupData.description,
+        creatorId: groupData.creatorId,
+      })
+    }
+  }, [groupData]);
 
   // Set the value if the user is coordinator
   useEffect(() => {
@@ -42,6 +60,8 @@ export const useAddGroupFormWidget = () => {
   };
 
   return {
+    groupData,
+    isLoadingGroup,
     userData,
     methods,
     handleSubmit,

@@ -79,14 +79,6 @@ export const Sidebar = () => {
 
       <div className={`${styles.sidebarSubcontainer} ${styles.colapsarButton}`}>
         <div className={styles.linkListContainer}>
-          {/* Logout button */}
-          <button className={styles.linkContainer} onClick={() => logout()}>
-            <div className={styles.linkIcon}>
-              <LogOut />
-            </div>
-            <div className={styles.linkTitle}>Logout</div>
-          </button>
-
           <button
             onClick={() => {
               setSidebarOpened(!sidebarOpened);
@@ -99,6 +91,14 @@ export const Sidebar = () => {
               {sidebarOpened ? <SidebarClose /> : <SidebarOpen />}
             </div>
             <div className={styles.linkTitle}>Colapsar</div>
+          </button>
+
+          {/* Logout button */}
+          <button className={styles.linkContainer} onClick={() => logout()}>
+            <div className={styles.linkIcon}>
+              <LogOut />
+            </div>
+            <div className={styles.linkTitle}>Logout</div>
           </button>
         </div>
       </div>

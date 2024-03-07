@@ -20,33 +20,38 @@ export const useGetData = <T extends Object>(
     .join("");
 
   useEffect(() => {
-    axios
-      .get<RespData<T>>(`${url}${queryParamsUrl}`, {
-        headers: {
-          Authorization:
-            needAuthorization && authToken ? `Bearer ${authToken}` : "",
-        },
-      })
-      .then((resp: RespData<T>) => {
-        if (resp.status !== 200) {
+    if (url.trim() !== '') {
+      axios
+        .get<RespData<T>>(`${url}${queryParamsUrl}`, {
+          headers: {
+            Authorization:
+              needAuthorization && authToken ? `Bearer ${authToken}` : "",
+          },
+        })
+        .then((resp: RespData<T>) => {
+          if (resp.status !== 200) {
+            setIsLoading(false);
+            const { msg } = resp.data.data as RespError;
+            throw new Error("Error:" + msg);
+          }
+  
+          if (resp.data) {
+            setData(resp.data);
+            setIsLoading(false);
+          }
+        })
+        .catch((error) => {
           setIsLoading(false);
-          const { msg } = resp.data.data as RespError;
-          throw new Error("Error:" + msg);
-        }
-
-        if (resp.data) {
-          setData(resp.data);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        setData(undefined);
-        if (error.response.status === 401) {
-          logout();
-        }
-        // throw new Error("Error:" + error);
-      });
+          setData(undefined);
+          if (error.response.status === 401) {
+            logout();
+          }
+          // throw new Error("Error:" + error);
+        });
+    } else {
+      setData(undefined);
+      setIsLoading(false);
+    }
   }, []);
 
   return { data, isLoading };

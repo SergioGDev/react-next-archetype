@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./GroupDetailPage.module.scss";
+
+import GeneralTable from "@/components/common/GeneralTable/GeneralTable";
+import Spinner from "@/components/common/Spinner";
 import { useParams } from "next/navigation";
 import { useGetData } from "@/hooks/useGetData";
-import Spinner from "@/components/common/Spinner";
 import { Card, Typography } from "@mui/material";
 import { GroupData } from "@/types/group.types";
 import { formatDate } from "@/helpers/formatDate";
+import { headersUserListDataTable } from "./groupDetailPage.consts";
+import { getRowsUsersData } from "./groupDetailPage.helpers";
 
 const GroupDetailPage = () => {
   const { id } = useParams<{ id: string }>()!;
@@ -36,10 +40,14 @@ const GroupDetailPage = () => {
         </Typography>
         <Typography variant="body1">{data.description}</Typography>
 
-        <Typography variant="h5" sx={{ marginTop: 4 }}>
+        <Typography variant="h5" sx={{ marginTop: 4, marginBottom: 2 }}>
           Users of the group
         </Typography>
-        {/* Add here a table with the users of the group */}
+
+        <GeneralTable
+          tableHeaders={headersUserListDataTable}
+          tableRows={getRowsUsersData(data.userList ?? [])}
+        />
       </Card>
     </div>
   );

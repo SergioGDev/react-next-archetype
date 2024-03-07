@@ -3,6 +3,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { RespData, RespError } from "@/types/axios.types";
+import { AUTH_TOKEN } from "@/context/AuthContext/authContext.consts";
 
 export const usePostData = <T extends Object>(
   url: string,
@@ -10,7 +11,7 @@ export const usePostData = <T extends Object>(
 ) => {
   const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState(false);
-  const authToken = Cookies.get("authToken");
+  const authToken = Cookies.get(AUTH_TOKEN);
 
   const postData = (body: { [key: string]: any }) => {
     setIsLoading(true);
