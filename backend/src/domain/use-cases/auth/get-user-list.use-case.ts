@@ -1,3 +1,4 @@
+import { GetUserListDto } from "../../entities/dtos/auth";
 import { AuthRepository } from "../../repositories/auth.repository";
 
 interface UserList {
@@ -15,15 +16,15 @@ interface UserList {
 }
 
 interface GetUserListUseCase {
-  execute(): Promise<UserList>;
+  execute(getUserListDto: GetUserListDto): Promise<UserList>;
 }
 
 export class GetUserList implements GetUserListUseCase {
   constructor(private readonly authRepository: AuthRepository) {}
 
-  async execute(): Promise<UserList> {
+  async execute(getUserListDto: GetUserListDto): Promise<UserList> {
     // Buscar el usuario
-    const userList = await this.authRepository.getUserList();
+    const userList = await this.authRepository.getUserList(getUserListDto);
     const userListMapped = userList.map(
       ({ name, surname, email, role, status, creationDate }) => ({
         name,

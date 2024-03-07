@@ -1,5 +1,5 @@
 import { AuthDatasource, AuthRepository, UserEntity } from '../../domain';
-import { LoginUserDto, RegisterUserDto, RenewTokenDto } from '../../domain/entities/dtos/auth';
+import { GetUserListDto, LoginUserDto, RegisterUserDto, RenewTokenDto } from '../../domain/entities/dtos/auth';
 import { UpdateUserDataDto } from '../../domain/entities/dtos/auth/update-user-data.dto';
 
 export class AuthRepositoryImpl implements AuthRepository {
@@ -8,8 +8,8 @@ export class AuthRepositoryImpl implements AuthRepository {
         private readonly authDatasource: AuthDatasource
     ) {}
 
-    getUserList(): Promise<UserEntity[]> {
-        return this.authDatasource.getUserList();
+    getUserList(getUserListDto: GetUserListDto): Promise<UserEntity[]> {
+        return this.authDatasource.getUserList(getUserListDto);
     }
 
     login(loginUserDto: LoginUserDto): Promise<UserEntity> {

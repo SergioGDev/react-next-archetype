@@ -3,13 +3,14 @@ import { BcryptAdapter, JwtAdapter } from "../../config";
 import { UserModel } from "../../data/mongodb";
 import { AuthDatasource, CustomError, UserEntity } from "../../domain";
 import {
+  GetUserListDto,
   LoginUserDto,
   RegisterUserDto,
   RenewTokenDto,
 } from "../../domain/entities/dtos/auth";
 import { UserMapper } from "../mappers/user.mapper";
 import { UpdateUserDataDto } from "../../domain/entities/dtos/auth/update-user-data.dto";
-import { getWhereClause } from "../../helpers/getWhereClause";
+import { getWhereClause, getWhereClauseWithCoincidences } from "../../helpers/getWhereClause";
 
 type HashFunction = (password: string) => string;
 type CompareFunction = (password: string, hashed: string) => boolean;
@@ -26,9 +27,10 @@ export class AuthDatasourceImpl implements AuthDatasource {
     private readonly validateToken: ValidateTokenFunction = JwtAdapter.validateToken
   ) {}
 
-  async getUserList(): Promise<UserEntity[]> {
+  async getUserList(getUserListDto: GetUserListDto): Promise<UserEntity[]> {
     try {
-      const userListObj = await UserModel.find();
+      const whereClauses: { [key: string]: any } = getWhereClauseWithCoincidences(getUserListDto);
+      const userListObj = await UserModel.find(whereClauses);
 
       if (!userListObj) throw CustomError.internalServer();
 
@@ -61,7 +63,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
       if (!user) throw CustomError.internalServer();
 
-      return {...UserMapper.userEntityFromObject(user), ...whereClauses};
+      return { ...UserMapper.userEntityFromObject(user), ...whereClauses };
     } catch (error) {
       if (error instanceof CustomError) {
         throw error;
@@ -145,7 +147,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
         throw error;
       }
       throw CustomError.internalServer();
-    }   
+    }
   }
 
   async renewToken(renewTokenDto: RenewTokenDto): Promise<UserEntity> {

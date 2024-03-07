@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { CustomError } from "../../domain";
 import { AuthRepository } from "../../domain/repositories/auth.repository";
 import {
+  GetUserListDto,
   LoginUserDto,
   RegisterUserDto,
   RenewTokenDto,
@@ -75,8 +76,10 @@ export class AuthController {
 
   // Get Users
   getUsers = (req: Request, res: Response) => {
+    const [, getUserListDto] = GetUserListDto.create(req.body);
+
     new GetUserList(this.authRepository)
-      .execute()
+      .execute(getUserListDto!)
       .then((data) => res.json(data))
       .catch((error) => this.handleError(error, res));
   };
