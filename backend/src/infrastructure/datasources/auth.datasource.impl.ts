@@ -10,7 +10,10 @@ import {
 } from "../../domain/entities/dtos/auth";
 import { UserMapper } from "../mappers/user.mapper";
 import { UpdateUserDataDto } from "../../domain/entities/dtos/auth/update-user-data.dto";
-import { getWhereClause, getWhereClauseWithCoincidences } from "../../helpers/getWhereClause";
+import {
+  getWhereClause,
+  getWhereClauseWithCoincidences,
+} from "../../helpers/getWhereClause";
 
 type HashFunction = (password: string) => string;
 type CompareFunction = (password: string, hashed: string) => boolean;
@@ -29,7 +32,12 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
   async getUserList(getUserListDto: GetUserListDto): Promise<UserEntity[]> {
     try {
-      const whereClauses: { [key: string]: any } = getWhereClauseWithCoincidences(getUserListDto);
+      const whereClauses: { [key: string]: any } = !!getUserListDto.hardCompare
+        ? getWhereClause({ ...getUserListDto, hardCompare: undefined })
+        : getWhereClauseWithCoincidences({
+            ...getUserListDto,
+            hardCompare: undefined,
+          });
       const userListObj = await UserModel.find(whereClauses);
 
       if (!userListObj) throw CustomError.internalServer();
