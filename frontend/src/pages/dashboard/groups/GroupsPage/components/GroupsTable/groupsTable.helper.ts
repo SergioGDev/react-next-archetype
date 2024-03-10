@@ -1,4 +1,5 @@
 import { GeneralTableRowType } from "@/components/common/GeneralTable/generalTable.types";
+import { getShortString } from "@/helpers/getShortString";
 import { GroupData } from "@/types/group.types";
 
 export const getRowsGroupsData = (
@@ -9,8 +10,12 @@ export const getRowsGroupsData = (
       tableRow: [
         { id: "name", cellData: name, position: 0 },
         { id: "creatorId", cellData: creatorId, position: 1 },
-        { id: "description", cellData: description, position: 2 },
-        { id: "id", cellData: id, position: -1, hiddenData: false }
+        {
+          id: "description",
+          cellData: getShortString(description, 50),
+          position: 2,
+        },
+        { id: "id", cellData: id, position: -1, hiddenData: false },
       ],
     })
   );
