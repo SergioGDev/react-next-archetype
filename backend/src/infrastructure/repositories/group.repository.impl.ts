@@ -1,6 +1,7 @@
-import { AuthDatasource, GroupEntity } from "../../domain";
+import { GroupEntity } from "../../domain";
 import { GroupDatasource } from "../../domain/datasources/group.datasource";
 import {
+  EditGroupDto,
   GetGroupDataDto,
   GetGroupListDto,
 } from "../../domain/entities/dtos/group";
@@ -20,5 +21,9 @@ export class GroupRepositoryImpl implements GroupRepository {
 
   getGroupData(getGroupDataDto: GetGroupDataDto): Promise<GroupEntity> {
     return this.groupDatasource.getGroupData(getGroupDataDto);
+  }
+
+  editGroup(editGroupDto: EditGroupDto): Promise<GroupEntity> {
+    return this.groupDatasource.editGroup(editGroupDto);
   }
 }

@@ -5,10 +5,12 @@ import {
   RegisterGroupDto,
   GetGroupListDto,
   GetGroupDataDto,
+  EditGroupDto,
 } from "../../domain/entities/dtos/group";
 import { GetGroupList, RegisterGroup } from "../../domain/use-cases/group";
 import { GetGroupData } from "../../domain/use-cases/group/get-group-data-use-case";
 import { AuthRepository } from "../../domain/repositories/auth.repository";
+import { EditGroup } from "../../domain/use-cases/group/edit-group-use-case";
 
 export class GroupController {
   constructor(
@@ -53,6 +55,21 @@ export class GroupController {
 
     new GetGroupData(this.groupRepository, this.authRepository)
       .execute(getGroupDataDto!)
+      .then((data) => res.json(data))
+      .catch((error) => this.handleError(error, res));
+  };
+
+  // EDIT GROUP
+  editGroup = (req: Request, res: Response) => {
+    const [error, editGroupDto] = EditGroupDto.create({
+      ...req.body,
+      ...req.params,
+    });
+
+    if (error) return res.status(400).json({ error });
+
+    new EditGroup(this.groupRepository)
+      .execute(editGroupDto!)
       .then((data) => res.json(data))
       .catch((error) => this.handleError(error, res));
   };

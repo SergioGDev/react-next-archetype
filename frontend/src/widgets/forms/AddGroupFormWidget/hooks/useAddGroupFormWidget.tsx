@@ -1,17 +1,26 @@
-import { useForm } from "react-hook-form";
 import { AddGroupForm } from "../addGroupFormWidget.types";
 import { useAuthContext } from "@/context/AuthContext";
 import { usePostData } from "@/hooks/usePostData";
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
 import { useGetData } from "@/hooks/useGetData";
 import { GroupData } from "@/types/group.types";
 
+import { useParams, useRouter, usePathname } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { useSnackbarContext } from "@/context/SnackbarContext/SnackbarContextProvider";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { AUTH_TOKEN } from "@/context/AuthContext/authContext.consts";
+
 export const useAddGroupFormWidget = () => {
-  const { id } = useParams<{ id: string }>()!;
-  const methods = useForm<AddGroupForm>();
+  const { id } = useParams<{ id?: string }>()!;
   const router = useRouter();
+  const authToken = Cookies.get(AUTH_TOKEN);
+  const [, setLoadingData] = useState(false);
   const { userData } = useAuthContext();
+  const { showSnackbar } = useSnackbarContext();
+
+  const methods = useForm<AddGroupForm>();
 
   const { data: groupData, isLoading: isLoadingGroup } = useGetData<GroupData>(
     id ? `/api/group/groups/${id}` : ""
@@ -35,7 +44,7 @@ export const useAddGroupFormWidget = () => {
         name: groupData.name,
         description: groupData.description,
         creatorId: groupData.creatorId,
-      })
+      });
     }
   }, [groupData]);
 
@@ -55,8 +64,36 @@ export const useAddGroupFormWidget = () => {
   }, [data]);
 
   // Handle the submit of the form
-  const handleOnSubmit = () => {
-    postData(watch());
+  const handleOnSubmit = async () => {
+    console.log(id);
+    if (!id) {
+      postData(watch());
+    } else {
+      const { name, description } = watch();
+      setLoadingData(true);
+
+      const respUpdate = await axios.post<GroupData>(
+        `/api/group/edit/${id}`,
+        { name, description },
+        {
+          headers: {
+            Authorization: authToken ? `Bearer ${authToken}` : "",
+          },
+        }
+      );
+
+      if (!respUpdate) {
+        showSnackbar("Error updating group data");
+        setLoadingData(false);
+        return;
+      }
+
+      console.log(respUpdate);
+
+      showSnackbar("Group data updated");
+      setLoadingData(false);
+      router.back();
+    }
   };
 
   return {

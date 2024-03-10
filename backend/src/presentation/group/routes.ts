@@ -20,6 +20,7 @@ export class GroupRoutes {
     router.post("/register-group", [AuthMiddleware.validateJwt], controller.registerGroup);
     router.get("/groups", [AuthMiddleware.validateJwt], controller.getGroupList);
     router.get("/groups/:id", [AuthMiddleware.validateJwt], controller.getGroupData);
+    router.post("/edit/:id", [AuthMiddleware.validateJwt], controller.editGroup);
 
     return router;
   }

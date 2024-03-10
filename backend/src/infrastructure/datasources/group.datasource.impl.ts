@@ -3,10 +3,14 @@ import { GroupModel } from "../../data/mongodb/models/group.model";
 import { CustomError } from "../../domain";
 import { GroupDatasource } from "../../domain/datasources/group.datasource";
 import { GetGroupDataDto } from "../../domain/entities/dtos/group";
+import { EditGroupDto } from "../../domain/entities/dtos/group/edit-group.dto";
 import { GetGroupListDto } from "../../domain/entities/dtos/group/get-group-list.dto";
 import { RegisterGroupDto } from "../../domain/entities/dtos/group/register-group.dto";
 import { GroupEntity } from "../../domain/entities/group.entity";
-import { getWhereClauseWithCoincidences } from "../../helpers/getWhereClause";
+import {
+  getWhereClause,
+  getWhereClauseWithCoincidences,
+} from "../../helpers/getWhereClause";
 import { GroupMapper } from "../mappers/group.mapper";
 
 export class GroupDatasourceImpl implements GroupDatasource {
@@ -46,9 +50,29 @@ export class GroupDatasourceImpl implements GroupDatasource {
     }
   }
 
+  async editGroup(editGroupDto: EditGroupDto): Promise<GroupEntity> {
+    const { id, name, description } = editGroupDto;
+    const whereClause = getWhereClause({ name, description });
+
+    try {
+      const group = await GroupModel.findByIdAndUpdate(id, whereClause);
+
+      if (!group)
+        throw CustomError.badRequest("Can't find a group with this id");
+
+      return { ...GroupMapper.groupEntityFromObject(group), ...whereClause };
+    } catch (error) {
+      if (error instanceof CustomError) {
+        throw error;
+      }
+      throw CustomError.internalServer();
+    }
+  }
+
   async getGroupList(getGroupListDto: GetGroupListDto): Promise<GroupEntity[]> {
     try {
-      const whereClauses: { [key: string]: any } = getWhereClauseWithCoincidences(getGroupListDto);
+      const whereClauses: { [key: string]: any } =
+        getWhereClauseWithCoincidences(getGroupListDto);
       const groupList = await GroupModel.find(whereClauses);
 
       if (!groupList) throw CustomError.internalServer();
@@ -67,7 +91,7 @@ export class GroupDatasourceImpl implements GroupDatasource {
   async getGroupData(getGroupDataDto: GetGroupDataDto): Promise<GroupEntity> {
     try {
       const group = await GroupModel.findById(getGroupDataDto.id);
-      if (!group) throw CustomError.badRequest('No group found');
+      if (!group) throw CustomError.badRequest("No group found");
 
       return GroupMapper.groupEntityFromObject(group);
     } catch (error) {
