@@ -61,7 +61,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
         updateUserDataDto,
         ["email"]
       );
-
+      console.log({ whereClauses });
       const user = await UserModel.findOneAndUpdate(
         {
           email: updateUserDataDto.email,

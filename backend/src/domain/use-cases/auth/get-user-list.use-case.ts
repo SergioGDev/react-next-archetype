@@ -26,13 +26,15 @@ export class GetUserList implements GetUserListUseCase {
     // Buscar el usuario
     const userList = await this.authRepository.getUserList(getUserListDto);
     const userListMapped = userList.map(
-      ({ name, surname, email, role, status, creationDate }) => ({
+      ({ name, surname, email, role, status, creationDate, idGroup, img }) => ({
         name,
         surname,
         email,
         role,
         status,
         creationDate,
+        idGroup,
+        img,
       })
     );
 

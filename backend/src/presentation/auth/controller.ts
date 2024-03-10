@@ -67,6 +67,8 @@ export class AuthController {
     const [error, updateUserDataDto] = UpdateUserDataDto.create(req.body);
 
     if (error) return res.status(400).json({ error });
+    console.log("Req.body:", req.body);
+    console.log({ updateUserDataDto });
 
     new UpdateUserData(this.authRepository)
       .execute(updateUserDataDto!)
@@ -76,7 +78,7 @@ export class AuthController {
 
   // Get Users
   getUsers = (req: Request, res: Response) => {
-    const [, getUserListDto] = GetUserListDto.create(req.body);
+    const [, getUserListDto] = GetUserListDto.create(req.query);
 
     new GetUserList(this.authRepository)
       .execute(getUserListDto!)

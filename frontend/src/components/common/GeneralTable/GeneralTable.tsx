@@ -38,7 +38,7 @@ const GeneralTableContainer = ({
         page: 0,
         tableActions,
       }),
-    []
+    [tableRows]
   );
 
   return (

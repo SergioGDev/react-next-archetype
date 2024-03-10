@@ -1,0 +1,12 @@
+.formContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+
+  .submitButton {
+    min-width: 160px;
+  }
+}

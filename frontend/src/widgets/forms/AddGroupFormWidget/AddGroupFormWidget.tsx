@@ -59,8 +59,8 @@ const AddGroupFormWidget = () => {
 
           <FormControlInputText
             name="creatorId"
-            placeholder="Coordinator email"
-            label="anthony_company@google.com"
+            label="Coordinator email"
+            placeholder="anthony_company@google.com"
             pattern={emailPattern}
             disabled={userData.role === "COORDINATOR_ROLE"}
             required
