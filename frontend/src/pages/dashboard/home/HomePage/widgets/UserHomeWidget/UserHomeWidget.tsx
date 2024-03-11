@@ -10,7 +10,6 @@ import { GroupData } from "@/types/group.types";
 
 import { Card, Typography } from "@mui/material";
 
-
 const UserHomeWidget = () => {
   const { userData } = useAuthContext();
   const { isLoading, data } = useGetData<GroupData>(
@@ -26,7 +25,7 @@ const UserHomeWidget = () => {
       </Typography>
 
       <UserDataWidget />
-{/* 
+      {/* 
       <Card className={styles.cardContainer}>
         <Typography variant="h5" className={styles.subtitle}>
           Group
