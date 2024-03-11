@@ -3,10 +3,13 @@ import styles from "./UserHomeWidget.module.scss";
 
 import GroupHomeWidget from "../GroupHomeWidget/GroupHomeWidget";
 import Spinner from "@/components/common/Spinner";
-import { Card, Typography } from "@mui/material";
+import UserDataWidget from "../UserDataWidget/UserDataWidget";
 import { useAuthContext } from "@/context/AuthContext";
 import { useGetData } from "@/hooks/useGetData";
 import { GroupData } from "@/types/group.types";
+
+import { Card, Typography } from "@mui/material";
+
 
 const UserHomeWidget = () => {
   const { userData } = useAuthContext();
@@ -22,18 +25,8 @@ const UserHomeWidget = () => {
         Home
       </Typography>
 
-      <Card className={styles.cardContainer}>
-        <Typography variant="h5" className={styles.subtitle}>
-          User data
-        </Typography>
-        <Typography className={styles.row} variant="body1">
-          <b>User:</b> {userData?.name} {userData?.surname}
-        </Typography>
-        <Typography className={styles.row} variant="body1">
-          <b>Email:</b> {userData?.email}
-        </Typography>
-      </Card>
-
+      <UserDataWidget />
+{/* 
       <Card className={styles.cardContainer}>
         <Typography variant="h5" className={styles.subtitle}>
           Group
@@ -47,7 +40,7 @@ const UserHomeWidget = () => {
             </Typography>
           )}
         </div>
-      </Card>
+      </Card> */}
     </div>
   );
 };
