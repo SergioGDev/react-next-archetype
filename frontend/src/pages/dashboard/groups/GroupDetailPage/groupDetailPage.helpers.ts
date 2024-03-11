@@ -1,6 +1,5 @@
 import { GeneralTableRowType } from "@/components/common/GeneralTable/generalTable.types";
 import { UserData } from "@/context/AuthContext/authContext.types";
-import { GroupData } from "@/types/group.types";
 
 export const getRowsUsersData = (
   userDataList: UserData[]

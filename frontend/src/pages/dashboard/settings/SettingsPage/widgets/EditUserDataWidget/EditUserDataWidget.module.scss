@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+    flex-direction: column;
+
+    width: calc(100% - 56px);
+    padding: 20px 28px;
+
+    .title {
+        margin-bottom: 10px;
+    }
+}
+
+.formContainer {
+    width: 100%;
+
+    .buttonRow {
+        margin-top: 30px;
+        float: right;
+    }
+}

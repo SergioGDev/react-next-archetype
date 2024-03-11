@@ -1,1 +1,3 @@
-export { default } from './SettingsPage';
+"use client";
+
+export { default } from "./SettingsPage";

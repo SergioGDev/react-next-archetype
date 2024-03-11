@@ -14,7 +14,7 @@ const UserListPage = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      <Typography variant="h3">User list</Typography>
+      <Typography variant="h4">User list</Typography>
       <GeneralTable
         tableRows={getRowsUserData(data!.userList)}
         tableHeaders={headersUserDataTable}
