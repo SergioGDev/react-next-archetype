@@ -61,7 +61,6 @@ export class AuthDatasourceImpl implements AuthDatasource {
         updateUserDataDto,
         ["email"]
       );
-      console.log({ whereClauses });
       const user = await UserModel.findOneAndUpdate(
         {
           email: updateUserDataDto.email,
@@ -84,15 +83,18 @@ export class AuthDatasourceImpl implements AuthDatasource {
     const { email, password } = loginUserDto;
 
     try {
-      // 1. Verificar si el correo existe
+      // 1. Verify if the email exists
       const user = await UserModel.findOne({ email });
 
       if (!user) throw CustomError.badRequest("Invalid email or password");
 
-      // 2. Validamos la contraseña
+      // 2. Valid the password
       const isMatching = this.comparePassword(password, user.password);
       if (!isMatching)
         throw CustomError.badRequest("Invalid email or password");
+
+      // 3. Update the last login date
+      UserModel.findByIdAndUpdate(user.id, { lastLogin: new Date() });
 
       return UserMapper.userEntityFromObject(user);
     } catch (error) {
@@ -107,12 +109,12 @@ export class AuthDatasourceImpl implements AuthDatasource {
     const { name, surname, email, password, role } = registerUserDto;
 
     try {
-      // 1. Verificar si el correo existe
+      // 1. Verify if the email exists
       const exist = await UserModel.findOne({ email });
 
       if (exist) throw CustomError.badRequest("User already exists");
 
-      // 2. Solamente puede existir una cuenta de admin
+      // 2. We only can have an admin account
       if (role === "ADMIN_ROLE") {
         const existsAdminAccount = await UserModel.findOne({
           role: "ADMIN_ROLE",
@@ -129,10 +131,9 @@ export class AuthDatasourceImpl implements AuthDatasource {
         role,
       });
 
-      // 3. Hacer un hash de la contraseña
+      // 3. Hashing the password
       await user.save();
 
-      // 4. Mapear la respuesta a nuestra entidad
       return UserMapper.userEntityFromObject(user);
     } catch (error) {
       if (error instanceof CustomError) {

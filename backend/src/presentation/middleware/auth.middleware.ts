@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtAdapter } from "../../config";
 import { UserModel } from "../../data/mongodb";
+import { logger } from "../../config/logger";
 
 export class AuthMiddleware {
   static validateJwt = async (
@@ -33,7 +34,7 @@ export class AuthMiddleware {
 
       next();
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   };

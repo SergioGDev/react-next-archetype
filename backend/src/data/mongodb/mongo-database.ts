@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { logger } from "../../config/logger";
 
 interface Options {
     mongoUrl: string;
@@ -12,11 +13,11 @@ export class MongoDatabase {
 
         try {
             await mongoose.connect(mongoUrl, { dbName });
-            console.log('Mongo connected');
+            logger.info('Mongo connected');
 
             return true;
         } catch(error) {
-            console.log('Mongo connection error')
+            logger.error('Mongo connection error')
             throw error;
         }
     }

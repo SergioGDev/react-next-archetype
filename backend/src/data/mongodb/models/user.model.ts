@@ -25,6 +25,10 @@ const userSchema = new Schema({
   img: {
     type: String,
   },
+  lastLogin: {
+    type: Date,
+    default: new Date(),
+  },
   role: {
     type: String,
     default: "USER_ROLE",

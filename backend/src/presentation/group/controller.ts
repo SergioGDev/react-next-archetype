@@ -11,6 +11,7 @@ import { GetGroupList, RegisterGroup } from "../../domain/use-cases/group";
 import { GetGroupData } from "../../domain/use-cases/group/get-group-data-use-case";
 import { AuthRepository } from "../../domain/repositories/auth.repository";
 import { EditGroup } from "../../domain/use-cases/group/edit-group-use-case";
+import { logger } from "../../config/logger";
 
 export class GroupController {
   constructor(
@@ -23,7 +24,7 @@ export class GroupController {
       return res.status(error.statusCode).json({ error: error.message });
     }
 
-    console.log(error); // Winston o el logger que sea
+    logger.error(error); // Winston o el logger que sea
     return res.status(500).json({ error: "Internal Server Error" });
   };
 

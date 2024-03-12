@@ -2,6 +2,7 @@ import { GetGroupDataDto } from "../../entities/dtos/group";
 import { UserEntity } from "../../entities/user.entity";
 import { GroupRepository } from "../../repositories/group.repository";
 import { EditGroupDto } from "../../entities/dtos/group/edit-group.dto";
+import { logger } from "../../../config/logger";
 
 interface GroupToken {
   id: string;
@@ -23,6 +24,7 @@ export class EditGroup implements EditGroupUseCase {
   async execute(editGroupDto: EditGroupDto): Promise<GroupToken> {
     const group = await this.groupRepository.editGroup(editGroupDto);
 
+    logger.info(`Edited group: ${JSON.stringify(group)}`);
     return { ...group };
   }
 }

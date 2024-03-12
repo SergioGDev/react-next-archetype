@@ -12,6 +12,7 @@ import { GetUserList } from "../../domain/use-cases/auth/get-user-list.use-case"
 import { RenewToken } from "../../domain/use-cases/auth/renew-token.use-case";
 import { LoginUser, RegisterUser } from "../../domain/use-cases/auth";
 import { UpdateUserData } from "../../domain/use-cases/auth/update-user-data.use-case";
+import { logger } from "../../config/logger";
 
 export class AuthController {
   // Inyección de Dependencias
@@ -22,7 +23,7 @@ export class AuthController {
       return res.status(error.statusCode).json({ error: error.message });
     }
 
-    console.log(error); // Winston o el logger que sea
+    logger.error(error); // Winston o el logger que sea
     return res.status(500).json({ error: "Internal Server Error" });
   };
 
@@ -67,8 +68,6 @@ export class AuthController {
     const [error, updateUserDataDto] = UpdateUserDataDto.create(req.body);
 
     if (error) return res.status(400).json({ error });
-    console.log("Req.body:", req.body);
-    console.log({ updateUserDataDto });
 
     new UpdateUserData(this.authRepository)
       .execute(updateUserDataDto!)

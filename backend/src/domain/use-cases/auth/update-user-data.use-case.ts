@@ -1,4 +1,5 @@
 import { JwtAdapter } from "../../../config";
+import { logger } from "../../../config/logger";
 import { UpdateUserDataDto } from "../../entities/dtos/auth";
 import { CustomError } from "../../errors/custom.error";
 import { AuthRepository } from "../../repositories/auth.repository";
@@ -23,9 +24,7 @@ interface UpdateUserDataUseCase {
 
 export class UpdateUserData implements UpdateUserDataUseCase {
   // Inyección de Dependencias
-  constructor(
-    private readonly authRepository: AuthRepository,
-  ) {}
+  constructor(private readonly authRepository: AuthRepository) {}
 
   async execute(updateUserDataDto: UpdateUserDataDto): Promise<UserData> {
     // Actualiza los datos del usuario
@@ -42,6 +41,7 @@ export class UpdateUserData implements UpdateUserDataUseCase {
       img,
     } = user;
 
+    logger.info(`Updated user data: ${JSON.stringify(user)}`);
     return {
       userData: {
         id,

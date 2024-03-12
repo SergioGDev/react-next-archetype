@@ -1,4 +1,5 @@
 import { JwtAdapter } from "../../../config";
+import { logger } from "../../../config/logger";
 import { LoginUserDto } from "../../entities/dtos/auth/login-user.dto";
 import { CustomError } from "../../errors/custom.error";
 import { AuthRepository } from "../../repositories/auth.repository";
@@ -53,6 +54,7 @@ export class LoginUser implements LoginUserUseCase {
 
     if (!token) throw CustomError.internalServer("Error generating token"); // TODO: Cambiar el mensaje
 
+    logger.info(`User logged: ${user.email}`);
     return {
       token: token,
       user: {

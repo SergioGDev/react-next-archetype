@@ -1,4 +1,5 @@
 import { JwtAdapter } from "../../../config";
+import { logger } from "../../../config/logger";
 import { RegisterUserDto } from "../../entities/dtos/auth/register-user.dto";
 import { CustomError } from "../../errors/custom.error";
 import { AuthRepository } from "../../repositories/auth.repository";
@@ -50,6 +51,7 @@ export class RegisterUser implements RegisterUserUseCase {
 
     if (!token) throw CustomError.internalServer("Error generating token");
 
+    logger.info(`Register new user: ${JSON.stringify(user)}`);
     return {
       token: token,
       user: {

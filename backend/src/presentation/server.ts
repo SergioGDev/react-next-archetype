@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import { logger } from "../config/logger";
 
 interface Options {
   port?: number;
@@ -27,7 +28,7 @@ export class Server {
 
     // Escuchar el puerto
     this.app.listen(this.port, () => {
-      console.log(`Server running on port ${this.port}`);
+      logger.info(`Server running on port ${this.port}`);
     });
   }
 }

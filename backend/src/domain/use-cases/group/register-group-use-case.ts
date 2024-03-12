@@ -1,4 +1,5 @@
 import { JwtAdapter } from "../../../config";
+import { logger } from "../../../config/logger";
 import { RegisterGroupDto } from "../../entities/dtos/group/register-group.dto";
 import { GroupRepository } from "../../repositories/group.repository";
 
@@ -26,6 +27,7 @@ export class RegisterGroup implements RegisterGroupUseCase {
 
     const { name, description, creatorId, status, creationDate } = groupData;
 
+    logger.info(`Group created: ${JSON.stringify(groupData)}`);
     return { group: { name, description, creatorId, status, creationDate } };
   }
 }
