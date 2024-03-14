@@ -34,8 +34,6 @@ const GroupsTable = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <Typography variant="h4">Groups</Typography>
-
-      <Typography variant="body1">Find here your group:</Typography>
       
       {userData?.role !== "USER_ROLE" && (
         <Box
