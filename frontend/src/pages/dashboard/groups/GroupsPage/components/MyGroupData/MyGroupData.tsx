@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./MyGroupData.module.scss";
 
 import Spinner from "@/components/common/Spinner";
 import { formatDate } from "@/helpers/formatDate";
@@ -14,29 +15,23 @@ const MyGroupData = () => {
     return <Card sx={{ padding: 4 }}>Error getting group data...</Card>;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      <Typography variant="h4" sx={{ marginBottom: 4 }}>
+    <Box className={styles.container}>
+      <Typography variant="h4" className={styles.title}>
         My group
       </Typography>
 
-      <Card sx={{ padding: 4 }}>
+      <Card className={styles.card}>
         <Typography variant="h5" sx={{ marginBottom: 4 }}>
           {data.name}
         </Typography>
 
-        <Typography variant="body2" sx={{ marginBottom: 2 }}>
+        <Typography variant="body2" className={styles.createdAt}>
           Created at: {formatDate(data.creationDate)}
         </Typography>
         <Typography variant="body1">{data.description}</Typography>
       </Card>
 
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "flex-end",
-          flexDirection: "column",
-        }}
-      >
+      <Box className={styles.leaveGroupContainer}>
         <Button color="error" onClick={onClickLeaveGroup}>
           Leave group
         </Button>

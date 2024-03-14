@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  margin-bottom: 24px;
+}
+
+.card {
+  padding: 24px;
+}
+
+.createdAt {
+  margin-bottom: 16px;
+}
+
+.leaveGroupContainer {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}

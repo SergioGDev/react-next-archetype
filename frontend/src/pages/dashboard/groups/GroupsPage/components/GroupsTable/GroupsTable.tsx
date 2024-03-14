@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
-import GeneralTable from '@/components/common/GeneralTable/GeneralTable';
-import Spinner from '@/components/common/Spinner';
-import { useGroupsTable } from './hooks/useGroupsTable';
-import { getRowsGroupsData } from './groupsTable.helper';
-import { headersGroupDataTable } from './groupsTable.consts';
-import { useGetData } from '@/hooks/useGetData';
-import { GroupListPageApiRespData } from '@/types/group.types';
+import GeneralTable from "@/components/common/GeneralTable/GeneralTable";
+import Spinner from "@/components/common/Spinner";
+import { useGroupsTable } from "./hooks/useGroupsTable";
+import { getRowsGroupsData } from "./groupsTable.helper";
+import { headersGroupDataTable } from "./groupsTable.consts";
+import { useGetData } from "@/hooks/useGetData";
+import { GroupListPageApiRespData } from "@/types/group.types";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { Box, Button, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
@@ -34,6 +34,9 @@ const GroupsTable = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <Typography variant="h4">Groups</Typography>
+
+      <Typography variant="body1">Find here your group:</Typography>
+      
       {userData?.role !== "USER_ROLE" && (
         <Box
           sx={{

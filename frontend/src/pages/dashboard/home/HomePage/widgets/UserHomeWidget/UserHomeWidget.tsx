@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./UserHomeWidget.module.scss";
 
-import GroupHomeWidget from "../GroupHomeWidget/GroupHomeWidget";
 import Spinner from "@/components/common/Spinner";
 import UserDataWidget from "../UserDataWidget/UserDataWidget";
 import { useAuthContext } from "@/context/AuthContext";
@@ -25,21 +24,6 @@ const UserHomeWidget = () => {
       </Typography>
 
       <UserDataWidget />
-      {/* 
-      <Card className={styles.cardContainer}>
-        <Typography variant="h5" className={styles.subtitle}>
-          Group
-        </Typography>
-        <div className={styles.row}>
-          {data ? (
-            <GroupHomeWidget groupData={data} />
-          ) : (
-            <Typography variant="body1">
-              You don't belong to any group
-            </Typography>
-          )}
-        </div>
-      </Card> */}
     </div>
   );
 };
