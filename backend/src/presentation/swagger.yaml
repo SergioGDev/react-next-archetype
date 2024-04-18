@@ -1,0 +1,332 @@
+openapi: "3.0.3"
+info:
+  title: "React Next Archetype API documentation"
+  description: "API documentation to the backend of the React Next Archetype."
+  version: "1.0.0"
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost:3028/api
+
+tags:
+  - name: auth
+    description: Everything about users and authentication.
+  - name: group
+    description: Operations about groups of users.
+
+paths:
+  /auth/user-list:
+    get:
+      tags: 
+        - auth
+      summary: Get the user list
+      description: Get the user list filtered by the parameters.
+      operationId: userList
+      parameters:
+        - name: email
+          in: query
+          description: Filter by email
+          required: false
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Filter by name
+          required: false
+          schema:
+            type: string
+        - name: surname
+          in: query
+          description: Filtrar por surname
+          required: false
+          schema:
+            type: string
+        - name: role
+          in: query
+          description: Filter by user role
+          required: false
+          schema:
+            type: string
+            description: Filter by the role of the user
+            example: USER_ROLE
+            enum:
+              - USER_ROLE
+              - COORDINATOR_ROLE
+              - ADMIN_ROLE
+        - name: idGroup
+          in: query
+          description: Filter by idGroup
+          required: false
+          schema:
+            type: string
+        - name: hardCompare
+          in: query
+          description: If true, it will do a hard find. Else, it will find by coincidences.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: OK. User list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  length:
+                    type: integer
+                    example: 1
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        500:
+          description: Internal Server Error.
+      security:
+        - BearerAuth: []
+
+  /group/groups:
+    get:
+      tags: 
+        - group
+      summary: Get the group list
+      description: Obtains the list of groups filtering by parameters.
+      operationId: groupList
+      parameters:
+        - name: name
+          in: query
+          description: Filter by name
+          required: false
+          schema:
+            type: string
+        - name: creatorId
+          in: query
+          description: Filter by the id of the creator of the group
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Group List
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Group'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        500:
+          description: Internal Server Error.
+      security:
+        - BearerAuth: []
+
+  /group/register-group:
+    post:
+      tags: 
+        - group
+      summary: Register group
+      description: Register a new group.
+      operationId: registerGroup
+      parameters:
+        - name: name
+          in: query
+          description: Name of the group
+          required: false
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Description of the group
+          required: false
+          schema:
+            type: string
+        - name: creatorId
+          in: query
+          description: Id of the creator of the group
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Group registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  group:
+                    type: 
+                    $ref: '#/components/schemas/Group'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        500:
+          description: Internal Server Error.
+      security:
+        - BearerAuth: []
+
+  /group/edit:
+    post:
+      tags: 
+        - group
+      summary: Register group
+      description: Register a new group.
+      operationId: registerGroup
+      parameters:
+        - name: id
+          in: query
+          description: Id of the group
+          required: false
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Name of the group
+          required: false
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Description of the group
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Group edited
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Group'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        500:
+          description: Internal Server Error.
+      security:
+        - BearerAuth: []
+
+  /group/groups/{id}:
+    get:
+      tags: 
+        - group
+      summary: Get group data
+      description: Obtains the data of the group using the ID
+      operationId: getGroupById
+      parameters:
+        - name: id
+          description: Id of the group
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Group Data
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Group'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        500:
+          description: Internal Server Error.
+      security:
+        - BearerAuth: []
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 65ce8a1971c1b634cc9e667b
+        name:
+          type: string
+        surname:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        idGroup:
+          type: string
+          example: 65ce8a1971c1b634cc9e667b
+        img:
+          type: string
+          format: url
+        lastLogin:
+          type: string
+          format: date-time
+        role:
+          type: string
+          description: Role of the user
+          example: USER_ROLE
+          enum:
+            - USER_ROLE
+            - COORDINATOR_ROLE
+            - ADMIN_ROLE
+        status:
+          type: string
+          description: Status of the object
+          example: ACTIVE
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - DELETED
+        creationDate:
+          type: string
+          format: date-time
+
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 65ce8a1971c1b634cc9e667b
+        name:
+          type: string
+        description:
+          type: string
+        creatorId:
+          type: string
+          example: 65ce8a1971c1b634cc9e667b
+        img:
+          type: string
+          format: url
+        lastLogin:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: Status of the object
+          example: ACTIVE
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - DELETED
+        creationDate:
+          type: string
+          format: date-time
+    
+  responses:      
+    UnauthorizedError:
+      description: Access token is missing or invalid
+        
+    
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

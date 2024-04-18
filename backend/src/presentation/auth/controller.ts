@@ -75,7 +75,6 @@ export class AuthController {
       .catch((error) => this.handleError(error, res));
   };
 
-  // Get Users
   getUsers = (req: Request, res: Response) => {
     const [, getUserListDto] = GetUserListDto.create(req.query);
 
